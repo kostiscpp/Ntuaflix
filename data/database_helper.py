@@ -18,6 +18,8 @@ title_episode = pd.read_csv(file_names[4], delimiter='\t')
 title_principals = pd.read_csv(file_names[5], delimiter='\t')
 title_ratings = pd.read_csv(file_names[6], delimiter='\t')
 
+
+print(title_principals['job'].unique())
 '''  
 Αν ανοίξει κανένας το github, πρεπει να δούμε τα δεδομένα και να αποφασίσουμε αν μας κάνει η βάση που έχουμε σχεδιάσει
 
