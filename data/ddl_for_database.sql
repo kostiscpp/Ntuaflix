@@ -24,8 +24,8 @@ USE `softeng` ;
 CREATE TABLE IF NOT EXISTS `softeng`.`professional` (
   `professional_id` INT NOT NULL AUTO_INCREMENT,
   `primary_name` VARCHAR(255) NULL,
-  `birth_date` DATETIME NULL,
-  `death_date` DATETIME NULL,
+  `birth_date` INT NULL,
+  `death_date` INT NULL,
   `biography` TEXT NULL,
   `image_url` TEXT NULL,
   PRIMARY KEY (`professional_id`))
@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 -- Table `softeng`.`media`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `softeng`.`media` (
-  `media_id` INT NOT NULL,
+  `media_id` INT NOT NULL AUTO_INCREMENT,
   `title_type` VARCHAR(255) NULL,
   `primary_title` VARCHAR(255) NULL,
   `original_title` VARCHAR(255) NULL,
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `softeng`.`media` (
   `end_year` INT NULL,
   `runtime_minutes` INT NULL,
   `summary` TEXT NULL,
-  `poster_url` TEXT NULL COMMENT 'this is a link to the place where it\'s stored, we can change it to blob if we want to store the binary in the database',
-  `rating` DECIMAL(1,1) NULL,
+  `poster_url` TEXT NULL,
+  `rating` DECIMAL(3,1) NULL,
   `no_of_ratings` INT NULL,
   PRIMARY KEY (`media_id`))
 ENGINE = InnoDB;
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `softeng`.`belongs` (
   CONSTRAINT `fk_genre_has_media_media1`
     FOREIGN KEY (`media_id`)
     REFERENCES `softeng`.`media` (`media_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -157,8 +157,8 @@ CREATE TABLE IF NOT EXISTS `softeng`.`rates` (
   CONSTRAINT `fk_media_has_user_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `softeng`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -324,8 +324,8 @@ CREATE TABLE IF NOT EXISTS `softeng`.`episode_details` (
   CONSTRAINT `fk_episode_details_basics2`
     FOREIGN KEY (`belongs_to`)
     REFERENCES `softeng`.`media` (`media_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -377,8 +377,8 @@ CREATE TABLE IF NOT EXISTS `softeng`.`known_for` (
   CONSTRAINT `fk_professional_has_basics_basics1`
     FOREIGN KEY (`media_id`)
     REFERENCES `softeng`.`media` (`media_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
