@@ -20,7 +20,7 @@ title_episode = pd.read_csv(file_names[4], delimiter='\t')
 title_principals = pd.read_csv(file_names[5], delimiter='\t')
 title_ratings = pd.read_csv(file_names[6], delimiter='\t')
 
-file_path = "dml_for_database.sql"
+file_path = "dml_for_database_dump.sql"
 
 # Open the file in write mode, creating it if it doesn't exist
 with open(file_path, "w") as file:
