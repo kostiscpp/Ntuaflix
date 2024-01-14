@@ -14,5 +14,5 @@ router.post('/upload/titleprincipals', auth.authenticateadmin, adminController.u
 router.post('/upload/titleratings', auth.authenticateadmin, adminController.uploadTitleRatings);
 router.post('/resetall', auth.authenticateadmin, adminController.resetall);
 router.post('/usermod/:username/:password', auth.authenticateadmin, adminController.usermod);
-router.get('/users/:username', auth.authenticateadmin, adminController.users);
+router.post('/users/:username', auth.authenticateadmin, adminController.users);
 module.exports = router;

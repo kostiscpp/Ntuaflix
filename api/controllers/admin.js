@@ -16,7 +16,7 @@ exports.resetall = async (req, res) => {
     TRUNCATE TABLE media;
     TRUNCATE TABLE genre;
     TRUNCATE TABLE belongs;
-    TRUNCATE TABLE user;
+    // TRUNCATE TABLE user;
     TRUNCATE TABLE phone_no;
     TRUNCATE TABLE watch_later;
     TRUNCATE TABLE rates;
