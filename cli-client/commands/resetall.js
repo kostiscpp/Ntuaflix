@@ -32,10 +32,10 @@ module.exports = {
         return;
       }
 
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+      //const rl = readline.createInterface({
+      //  input: process.stdin,
+      //  output: process.stdout,
+      //});
 
       // Prompt the user for confirmation
       const confirmation = true;
