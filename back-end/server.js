@@ -1124,15 +1124,18 @@ app.get('/api/watchedList', async (req, res) => {
 
 
 app.get('/api/topmovies', (req, res) => {
-    const pageNumber = req.query.page;
-    const offset = 5 * pageNumber;
-    query1 = "select primary_title, poster_url from media order by (rating*no_of_ratings+11)/(no_of_ratings+2) desc limit 5 offset " + offset + ";";
+    let pageNumber = parseInt(req.query.page, 1);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+        pageNumber = 1;
+    }
+    const offset = 5 * pageNumber - 5;
+    query1 = "select primary_title, poster_url from media order by (rating*no_of_ratings+11)/(no_of_ratings+2) desc limit 5 offset ?;";
     pool.getConnection((err, connection) => {
         if (err) {
           console.error('Error getting database connection:', err);
         }
     
-        connection.query(query1, (queryErr1, results1) => {
+        connection.query(query1, [offset], (queryErr1, results1) => {
             connection.release();
             if (queryErr1) {
                 console.error('Error executing query:', queryErr1);

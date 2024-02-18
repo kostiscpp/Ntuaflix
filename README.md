@@ -7,12 +7,12 @@
 - Τρέχουμε στον εξωτερικό φάκελο το αρχείο setup.sh (σιγουρευόμαστε ότι έχει δικαιώματα εκτέλεσης ```chmod +x setup.sh```)
 - Θέτουμε τον κωδικό του root στην mysql  σε root ή αν δεν θέλουμε, αλλάζουμε τον κωδικό στα αρχεία api/.env (DB_PASS) και back-end/.env (DB_PASS) στον κωδικό του root της mysql στο περιβάλλον μας
 - Τρέχουμε, με την εξής σειρά τις παρακάτω εντολές στο terminal της mysql (υποθέτουμε ότι ανοίχτηκε από τον φάκελο data):
-    source ddl_for_database.sql
-    source dml_for_database_dump.sql
-    source for_manual_testing.sql
+    ```source ddl_for_database.sql```
+    ```source dml_for_database_dump.sql```
+    ```source for_manual_testing.sql```
 - Για να τρέξουμε την εφαρμογή χρειαζόμαστε 3 terminals:
     1. Στον φάκελο back-end τρέχουμε την εντολή ```npm run dev```
-    2. Στον φάκελο fronend/client τρέχουμε την εντολή ```npm run dev```
+    2. Στον φάκελο front-end/client τρέχουμε την εντολή ```npm run dev```
     3. Στον φάκελο api τρέχουμε την εντολή ```node server.js```
 
 **Τι έχουμε καταφέρει?**

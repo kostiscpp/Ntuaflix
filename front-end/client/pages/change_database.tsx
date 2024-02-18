@@ -90,7 +90,7 @@ const Upload = () => {
                 alert("Failed to get user data");
             }
         } catch (e) {
-            alert('There was an error, please try again later');
+            alert('Failed to get user data');
             console.log(e);
         }
     }
