@@ -5,12 +5,13 @@ const { hideBin } = require('yargs/helpers');
 require('dotenv').config();
 const { getAsciiArt } = require('./asciiArt'); // Import the getAsciiArt function
 
+
 // Import individual command objects
 const loginCommand = require('./commands/login');
 const logoutCommand = require('./commands/logout');
 const healthcheckCommand = require('./commands/healthcheck');
 const userCommand = require('./commands/user');
-const addUserCommand = require('./commands/addUser');
+const addUserCommand = require('./commands/adduser');
 const resetAllCommand = require('./commands/resetall');
 const newTitlesCommand = require('./commands/newtitles');
 const newAkasCommand = require('./commands/newakas');
@@ -29,6 +30,7 @@ const searchNameCommand = require('./commands/searchname');
 const config = require('./config');
 
 // console.log(getAsciiArt());
+
 
 const argv = yargs(hideBin(process.argv))
   .version(require('./package.json').version)

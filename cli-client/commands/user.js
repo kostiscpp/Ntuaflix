@@ -3,16 +3,21 @@ const axios = require('axios');
 const { endpoints } = require('../config');
 const fs = require('fs/promises');
 const dotenv = require('dotenv');
-
+const jwt = require('jsonwebtoken');
 const supportedFormats = ['json', 'csv'];
 
 dotenv.config(); // Load environment variables from .env file
+const https = require('https');
+
+const agent = new https.Agent({
+  rejectUnauthorized: false, // Ignore SSL certificate validation (not recommended in production)
+});
 
 module.exports = {
   command: 'user',
   describe: 'Create a new user (admin only)',
   builder: (yargs) => {
-    yargs.option('user', {
+    yargs.option('username', {
       describe: 'Specify the username for the new user',
       type: 'string',
       demandOption: true,
@@ -34,7 +39,7 @@ module.exports = {
       }
 
       // Check if the user is an admin (use process.env for comparison)
-      const isAdmin = storedToken === process.env.AUTH_ADMIN;
+      const isAdmin = jwt.verify(storedToken, process.env.JWT_SECRET_KEY).role === 'admin';
 
       if (!isAdmin) {
         console.log('You need to be an admin to create a new user.');
@@ -42,17 +47,14 @@ module.exports = {
       }
 
       // Append the username to the usersUrl
-      let usersUrl = `${endpoints.users}/${argv.user}`;
+      let usersUrl = `${endpoints.users}/${argv.username}`;
       if (argv.format === 'csv') {
         // If the format is CSV, update the URL
         usersUrl = `${usersUrl}?format=csv`;
       }
-      const newUser = {
-        username: argv.user,
-        password: 'defaultPassword',
-      };
-
-      const response = await axios.post(usersUrl, newUser, {
+  
+      const response = await axios.get(usersUrl, {
+        httpsAgent: agent,
         headers: { 'X-OBSERVATORY-AUTH': storedToken },
       });
 

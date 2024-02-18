@@ -3,7 +3,10 @@ const { endpoints } = require('../config');
 const fs = require('fs/promises');
 
 const supportedFormats = ['json', 'csv'];
-
+const https = require('https');
+const agent = new https.Agent({
+  rejectUnauthorized: false, // Ignore SSL certificate validation (not recommended in production)
+});
 module.exports = {
   command: 'bygenre',
   describe: 'Get movies by genre with minimum rating and time range',
@@ -48,32 +51,33 @@ module.exports = {
         return;
       }
 
-      let byGenreUrl = `${endpoints.bygenre}?qgenre=${argv.genre}&minrating=${argv.min}`;
+      let byGenreUrl = `${endpoints.bygenre}`;
+      data = {
+        qgenre: argv.genre,
+        minrating: argv.min.toString(),
+      };
 
       if (argv.from) {
-        byGenreUrl += `&yrFrom=${argv.from}`;
+        data.yrFrom = argv.from;
       }
 
       if (argv.to) {
-        byGenreUrl += `&yrTo=${argv.to}`;
+        data.yrTo = argv.to;
       }
 
       if (argv.format === 'csv') {
-        byGenreUrl += `&format=csv`;
+        byGenreUrl += `?format=csv`;
       }
 
       const response = await axios.get(byGenreUrl, {
+        httpsAgent : agent,
         headers: { 'X-OBSERVATORY-AUTH': storedToken },
+        data: data,
       });
 
-      console.log('Movies by Genre:');
 
       if (argv.format === 'json') {
-        if (argv.full) {
-            console.log(JSON.stringify(response.data, null, 2));
-        } else {
-            console.log(response.data);
-        }
+        console.log(JSON.stringify(response.data, null, 2));
       } else if (argv.format === 'csv') {
         console.log(response.data);
       }
