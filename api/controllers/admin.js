@@ -44,11 +44,11 @@ exports.resetall = async (req, res) => {
         await connection.query(sqlScript);
         await connection.commit();
         console.log("Tables reset");
-        res.status(200).json({ "status": "OK"});
+        return res.status(200).json({ "status": "OK"});
     } catch (err) {
         console.error(err);
         if(connection) await connection.rollback();
-        res.status(500).json({ "status": "failed", "reason": "Internal server error" });
+        return res.status(500).json({ "status": "failed", "reason": "Internal server error" });
     }
     finally {
         // Always release the connection

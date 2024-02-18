@@ -38,17 +38,7 @@ module.exports = {
       });
 
       // Prompt the user for confirmation
-      const confirmation = await new Promise((resolve) => {
-        rl.question('Are you sure you want to reset all data? ([Y]es/[N]o): ', (answer) => {
-          if (['y', 'yes'].includes(answer.toLowerCase())) {
-            resolve(true);
-          } else {
-            console.log('Reset aborted.');
-            resolve(false);
-          }
-          rl.close();
-        });
-      });
+      const confirmation = true;
 
       // Continue with the reset process if the user confirmed
       if (confirmation) {

@@ -93,6 +93,13 @@ def test_query_user_info():
     assert "user1" in output, f"Query failed to find user1 in output: {output}"
     print("test_query_user_info passed ✅")
 
+def test_resetall():
+    command = ['node', 'se2325.js', 'resetall']
+    out, err, exitcode = capture(command)
+    output = out.decode('utf-8') if out else ""
+    error = err.decode('utf-8') if err else ""
+    assert exitcode == 0 and error == "", f"Reset all failed with error: {error}"
+    print("resetall passed ✅")
 
 def test_new_titles():
     # Assuming the filename for new titles is 'new_titles.txt'
@@ -211,6 +218,7 @@ test_valid_login()
 test_add_user()
 test_query_user_info()
 
+test_resetall()
 test_new_titles()
 test_new_akas()
 test_new_names()

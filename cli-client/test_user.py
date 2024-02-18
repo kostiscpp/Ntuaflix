@@ -82,7 +82,7 @@ def test_title():
         out, err, exitcode = capture(command)
         output = out.decode('utf-8').strip() if out else ""
         error = err.decode('utf-8').strip() if err else ""
-        assert exitcode == 0and error == "", f"Title search failed for valid title ID {title_id} with error: {error}"
+        assert exitcode == 0 and error == "", f"Title search failed for valid title ID {title_id} with error: {error}"
         assert is_CSV(output), f"Output for valid title ID {title_id} is not a CSV object."
         assert CSV_has_same(output, title_id)
         
@@ -447,21 +447,23 @@ def test_bygenre():
         genre = random.choice(Genres)
         year_from = random.randint(1959, 1996) # Ensuring --to year is always greater
         year_to = random.randint(year_from, 2000)
+        min_rating = random.randint(0, 7)
+        min_rating = str(min_rating)
         year_from = str(year_from)
         year_to = str(year_to)
-        command = command_base + [genre, '--min', year_from, '--from', year_from, '--to', year_to]
+        command = command_base + [genre, '--min', min_rating, '--from', year_from, '--to', year_to]
         out, err, exitcode = capture(command)
         output = out.decode('utf-8') if out else ""
         assert exitcode == 0 and error == "", f"Search failed for valid search by genre {genre} with error: {error}"
         
         year_from = random.randint(1959, 1996) 
         year_from = str(year_from)
-        command = command_base + [genre, '--min', year_from]
+        command = command_base + [genre, '--min', min_rating, '--from', year_from]
         out, err, exitcode = capture(command)
         output = out.decode('utf-8') if out else ""
         assert exitcode == 0 and error == "", f"Output for valid search by genre {genre} with error: {error}"
     
-        print(f"Test passed for valid genre {genre} ({i+1}/10) ✅")
+        print(f"Test passed for valid genre {genre} with year constraints ({i+1}/10) ✅")
 
 #test_logout()
 test_valid_login()
