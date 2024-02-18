@@ -2,7 +2,7 @@
 
 - Κάνουμε clone το παρόν repository σε ένα περιβάλλον με εγκατεστημένα τα εξής πράγματα:
     nodejs
-    npm (```bash sudo apt  install npm```)
+    npm (```sudo apt  install npm```)
     nextjs
 - Τρέχουμε στον εξωτερικό φάκελο το αρχείο setup.sh (σιγουρευόμαστε ότι έχει δικαιώματα εκτέλεσης ```chmod +x setup.sh```)
 - Θέτουμε τον κωδικό του root στην mysql  σε root ή αν δεν θέλουμε, αλλάζουμε τον κωδικό στα αρχεία api/.env (DB_PASS) και back-end/.env (DB_PASS) στον κωδικό του root της mysql στο περιβάλλον μας
@@ -32,9 +32,3 @@
 Στον φάκελο documentation μπορούμε να βρούμε τα εξής αρχεία που μας ενδιαφέρουν:
 - final_diagrams.vpp (διαγράμματα Visual Paradigm)
 - SRS_final.docx (το τελικό SRS αρχείο μας)
-
-Template repository, used for NTUA/ECE Software Engineering, 2023-2024
-
-Το αρχείο αυτό περιέχει οδηγίες για το στήσιμο του git repository που θα
-χρησιμοποιήσετε.  Στο τέλος, θα το αντικαταστήσετε με το `README.md` που
-θα περιγράφει το δικό σας project.
