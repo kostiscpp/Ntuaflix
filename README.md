@@ -2,7 +2,7 @@
 
 - Κάνουμε clone το παρόν repository σε ένα περιβάλλον με εγκατεστημένα τα εξής πράγματα:
     nodejs
-    npm (```bash sudo apt  install npm```)
+    npm (```sudo apt  install npm```)
     nextjs
 - Τρέχουμε στον εξωτερικό φάκελο το αρχείο setup.sh
 - Θέτουμε τον κωδικό του root στην mysql  σε root ή αν δεν θέλουμε, αλλάζουμε τον κωδικό στα αρχεία api/.env (DB_PASS) και back-end/.env (DB_PASS) στον κωδικό του root της mysql στο περιβάλλον μας
