@@ -32,9 +32,3 @@
 Στον φάκελο documentation μπορούμε να βρούμε τα εξής αρχεία που μας ενδιαφέρουν:
 - final_diagrams.vpp (διαγράμματα Visual Paradigm)
 - SRS_final.docx (το τελικό SRS αρχείο μας)
-
-Template repository, used for NTUA/ECE Software Engineering, 2023-2024
-
-Το αρχείο αυτό περιέχει οδηγίες για το στήσιμο του git repository που θα
-χρησιμοποιήσετε.  Στο τέλος, θα το αντικαταστήσετε με το `README.md` που
-θα περιγράφει το δικό σας project.
