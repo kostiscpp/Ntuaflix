@@ -1,0 +1,1726 @@
+{
+	"info": {
+		"_postman_id": "ac27ab13-429e-4195-bc04-6c968655f90d",
+		"name": "ntuaflix_api",
+		"description": "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know tha following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32136099"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwODA5OTU4NCwiZXhwIjoxNzA4MTAzMTg0fQ.FtaWdn5AgeaIg3R1vierdp0ie9sTpIYmkha326B37Kc\"\n}"
+						},
+						{
+							"name": "Wrong Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "notadmin",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n     \"message\": \"Wrong username or password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/name/:nameID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"name",
+								":nameID"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "nameID",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/name/:nameID?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"name",
+										":nameID"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "nameID",
+											"value": "nm0000199"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"nameID\",\"name\",\"namePoster\",\"birthYr\",\"deathYr\",\"nameTitles_1_titleID\",\"nameTitles_1_category\"\n\"nm0000199\",\"Al Pacino\",\"https://image.tmdb.org/t/p/w500/fMDFeVf0pjopTJbyRSLFwNDm8Wr.jpg\",\"1940\",,\"tt0097769\",\"actor\""
+						},
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ntuaflix_api/name/:nameID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ntuaflix_api",
+										"name",
+										":nameID"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "nameID",
+											"value": "nm0000199"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "210"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d2-U8odWV8gZ81VLwHlF30VePCiUHk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 17 Feb 2024 18:00:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nameID\": \"nm0000199\",\n    \"name\": \"Al Pacino\",\n    \"namePoster\": \"https://image.tmdb.org/t/p/w500/fMDFeVf0pjopTJbyRSLFwNDm8Wr.jpg\",\n    \"birthYr\": \"1940\",\n    \"deathYr\": null,\n    \"nameTitles\": [\n        {\n            \"titleID\": \"tt0097769\",\n            \"category\": \"actor\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/title/:titleID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"title",
+								":titleID"
+							],
+							"variable": [
+								{
+									"key": "titleID",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/title/:titleID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"title",
+										":titleID"
+									],
+									"variable": [
+										{
+											"key": "titleID",
+											"value": "tt0098182"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titleID\": \"tt0098182\",\n    \"type\": \"short\",\n    \"originalTitle\": \"Rejsen mod en fødsel\",\n    \"titlePoster\": null,\n    \"startYear\": \"1990\",\n    \"endYear\": null,\n    \"genres\": [\n        {\n            \"genreTitle\": \"Short\"\n        },\n        {\n            \"genreTitle\": \"Animation\"\n        }\n    ],\n    \"titleAkas\": [\n        {\n            \"akaTitle\": \"Rejsen mod en fødsel\",\n            \"regionAbbrev\": null\n        },\n        {\n            \"akaTitle\": \"Voyage vers la naissance\",\n            \"regionAbbrev\": \"FR\"\n        },\n        {\n            \"akaTitle\": \"Reisen mod en födsel\",\n            \"regionAbbrev\": \"SE\"\n        }\n    ],\n    \"principals\": [\n        {\n            \"nameID\": \"nm0198017\",\n            \"name\": \"Maria Mac Dalland\",\n            \"category\": \"director\"\n        }\n    ],\n    \"rating\": {\n        \"avRating\": null,\n        \"no_of_ratings\": null\n    }\n}"
+						},
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/title/:titleID?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"title",
+										":titleID"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "titleID",
+											"value": "tt0098182"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"titleID\",\"type\",\"originalTitle\",\"titlePoster\",\"startYear\",\"endYear\",\"genres_1_genreTitle\",\"genres_2_genreTitle\",\"titleAkas_1_akaTitle\",\"titleAkas_1_regionAbbrev\",\"titleAkas_2_akaTitle\",\"titleAkas_2_regionAbbrev\",\"titleAkas_3_akaTitle\",\"titleAkas_3_regionAbbrev\",\"principals_1_nameID\",\"principals_1_name\",\"principals_1_category\",\"rating_avRating\",\"rating_no_of_ratings\"\n\"tt0098182\",\"short\",\"Rejsen mod en fødsel\",,\"1990\",,\"Short\",\"Animation\",\"Rejsen mod en fødsel\",,\"Voyage vers la naissance\",\"FR\",\"Reisen mod en födsel\",\"SE\",\"nm0198017\",\"Maria Mac Dalland\",\"director\",,"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:9876/ntuaflix_api/logout",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Logout successful\"\n}"
+						}
+					]
+				},
+				{
+					"name": "searchtitle",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/searchtitle",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchtitle"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"titlePart\" : \"The G\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:9876/ntuaflix_api/searchtitle",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"searchtitle"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"titleID\": \"tt0099661\",\n        \"type\": \"tvEpisode\",\n        \"originalTitle\": \"The Girl with the Crazy Brother\",\n        \"titlePoster\": null,\n        \"startYear\": \"1990\",\n        \"endYear\": null,\n        \"genres\": [\n            {\n                \"genreTitle\": \"Comedy\"\n            },\n            {\n                \"genreTitle\": \"Drama\"\n            },\n            {\n                \"genreTitle\": \"Adventure\"\n            }\n        ],\n        \"titleAkas\": [\n            {\n                \"akaTitle\": \"The Girl with the Crazy Brother\",\n                \"regionAbbrev\": \"US\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0000099\",\n                \"name\": \"Patricia Arquette\",\n                \"category\": \"actress\"\n            },\n            {\n                \"nameID\": \"nm0000473\",\n                \"name\": \"Diane Keaton\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0005715\",\n                \"name\": \"Ronald Víctor García\",\n                \"category\": \"cinematographer\"\n            },\n            {\n                \"nameID\": \"nm0008466\",\n                \"name\": \"Lewis Abel\",\n                \"category\": \"producer\"\n            },\n            {\n                \"nameID\": \"nm0032033\",\n                \"name\": \"John Apicella\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0103655\",\n                \"name\": \"Jordan Brady\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0200658\",\n                \"name\": \"Barry Dantzscher\",\n                \"category\": \"writer\"\n            },\n            {\n                \"nameID\": \"nm0419747\",\n                \"name\": \"Billy Jayne\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0729701\",\n                \"name\": \"Stephen E. Rivkin\",\n                \"category\": \"editor\"\n            },\n            {\n                \"nameID\": \"nm1227891\",\n                \"name\": \"Charles A. Judge\",\n                \"category\": \"composer\"\n            }\n        ],\n        \"rating\": {\n            \"avRating\": \"5.600\",\n            \"no_of_ratings\": \"31\"\n        }\n    },\n    {\n        \"titleID\": \"tt0101971\",\n        \"type\": \"tvEpisode\",\n        \"originalTitle\": \"The Grapes of Wrath\",\n        \"titlePoster\": \"https://image.tmdb.org/t/p/w500/fL5V6o7NdPIVTODNEnxbUiiXNnH.jpg\",\n        \"startYear\": \"1991\",\n        \"endYear\": null,\n        \"genres\": [\n            {\n                \"genreTitle\": \"Comedy\"\n            },\n            {\n                \"genreTitle\": \"Drama\"\n            },\n            {\n                \"genreTitle\": \"Romance\"\n            }\n        ],\n        \"titleAkas\": [\n            {\n                \"akaTitle\": \"The Grapes of Wrath\",\n                \"regionAbbrev\": \"US\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0000641\",\n                \"name\": \"Gary Sinise\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0103231\",\n                \"name\": \"Gary Bradley\",\n                \"category\": \"editor\"\n            },\n            {\n                \"nameID\": \"nm0108066\",\n                \"name\": \"Robert Breuler\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0111527\",\n                \"name\": \"Michael Bronson\",\n                \"category\": \"producer\"\n            },\n            {\n                \"nameID\": \"nm0115185\",\n                \"name\": \"Kirk Browning\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0186949\",\n                \"name\": \"Ron Crawford\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0212636\",\n                \"name\": \"Mark Deakins\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0301715\",\n                \"name\": \"Frank Galati\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0825705\",\n                \"name\": \"John Steinbeck\",\n                \"category\": \"writer\"\n            },\n            {\n                \"nameID\": \"nm0930964\",\n                \"name\": \"John H. Williams\",\n                \"category\": \"producer\"\n            }\n        ],\n        \"rating\": {\n            \"avRating\": \"7.500\",\n            \"no_of_ratings\": \"90\"\n        }\n    },\n    {\n        \"titleID\": \"tt0101972\",\n        \"type\": \"tvEpisode\",\n        \"originalTitle\": \"The Grass Arena\",\n        \"titlePoster\": \"https://image.tmdb.org/t/p/w500/JtOhvOBuWsMn3vxzeQ0Za94AkC.jpg\",\n        \"startYear\": \"1991\",\n        \"endYear\": null,\n        \"genres\": [\n            {\n                \"genreTitle\": \"Drama\"\n            }\n        ],\n        \"titleAkas\": [\n            {\n                \"akaTitle\": \"The Grass Arena\",\n                \"regionAbbrev\": \"GB\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0000592\",\n                \"name\": \"Pete Postlethwaite\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0062344\",\n                \"name\": \"Ruth Baumgarten\",\n                \"category\": \"producer\"\n            },\n            {\n                \"nameID\": \"nm0062785\",\n                \"name\": \"Lynsey Baxter\",\n                \"category\": \"actress\"\n            },\n            {\n                \"nameID\": \"nm0102195\",\n                \"name\": \"Billy Boyle\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0213234\",\n                \"name\": \"Frank Deasy\",\n                \"category\": \"writer\"\n            },\n            {\n                \"nameID\": \"nm0533564\",\n                \"name\": \"Gillies MacKinnon\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0572938\",\n                \"name\": \"Marian McLoughlin\",\n                \"category\": \"actress\"\n            },\n            {\n                \"nameID\": \"nm0662491\",\n                \"name\": \"Michael Parker\",\n                \"category\": \"editor\"\n            },\n            {\n                \"nameID\": \"nm0753314\",\n                \"name\": \"Mark Rylance\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm4524359\",\n                \"name\": \"John Healy\",\n                \"category\": \"writer\"\n            }\n        ],\n        \"rating\": {\n            \"avRating\": \"7.900\",\n            \"no_of_ratings\": \"121\"\n        }\n    }\n]"
+						},
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"titlePart\" : \"The G\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/searchtitle?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"searchtitle"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"titleID\",\"type\",\"originalTitle\",\"titlePoster\",\"startYear\",\"endYear\",\"genres_1_genreTitle\",\"genres_2_genreTitle\",\"genres_3_genreTitle\",\"titleAkas_1_akaTitle\",\"titleAkas_1_regionAbbrev\",\"principals_1_nameID\",\"principals_1_name\",\"principals_1_category\",\"principals_2_nameID\",\"principals_2_name\",\"principals_2_category\",\"principals_3_nameID\",\"principals_3_name\",\"principals_3_category\",\"principals_4_nameID\",\"principals_4_name\",\"principals_4_category\",\"principals_5_nameID\",\"principals_5_name\",\"principals_5_category\",\"principals_6_nameID\",\"principals_6_name\",\"principals_6_category\",\"principals_7_nameID\",\"principals_7_name\",\"principals_7_category\",\"principals_8_nameID\",\"principals_8_name\",\"principals_8_category\",\"principals_9_nameID\",\"principals_9_name\",\"principals_9_category\",\"principals_10_nameID\",\"principals_10_name\",\"principals_10_category\",\"rating_avRating\",\"rating_no_of_ratings\"\n\"tt0099661\",\"tvEpisode\",\"The Girl with the Crazy Brother\",,\"1990\",,\"Comedy\",\"Drama\",\"Adventure\",\"The Girl with the Crazy Brother\",\"US\",\"nm0000099\",\"Patricia Arquette\",\"actress\",\"nm0000473\",\"Diane Keaton\",\"director\",\"nm0005715\",\"Ronald Víctor García\",\"cinematographer\",\"nm0008466\",\"Lewis Abel\",\"producer\",\"nm0032033\",\"John Apicella\",\"actor\",\"nm0103655\",\"Jordan Brady\",\"actor\",\"nm0200658\",\"Barry Dantzscher\",\"writer\",\"nm0419747\",\"Billy Jayne\",\"actor\",\"nm0729701\",\"Stephen E. Rivkin\",\"editor\",\"nm1227891\",\"Charles A. Judge\",\"composer\",\"5.600\",\"31\"\n\"tt0101971\",\"tvEpisode\",\"The Grapes of Wrath\",\"https://image.tmdb.org/t/p/w500/fL5V6o7NdPIVTODNEnxbUiiXNnH.jpg\",\"1991\",,\"Comedy\",\"Drama\",\"Romance\",\"The Grapes of Wrath\",\"US\",\"nm0000641\",\"Gary Sinise\",\"actor\",\"nm0103231\",\"Gary Bradley\",\"editor\",\"nm0108066\",\"Robert Breuler\",\"actor\",\"nm0111527\",\"Michael Bronson\",\"producer\",\"nm0115185\",\"Kirk Browning\",\"director\",\"nm0186949\",\"Ron Crawford\",\"actor\",\"nm0212636\",\"Mark Deakins\",\"actor\",\"nm0301715\",\"Frank Galati\",\"director\",\"nm0825705\",\"John Steinbeck\",\"writer\",\"nm0930964\",\"John H. Williams\",\"producer\",\"7.500\",\"90\"\n\"tt0101972\",\"tvEpisode\",\"The Grass Arena\",\"https://image.tmdb.org/t/p/w500/JtOhvOBuWsMn3vxzeQ0Za94AkC.jpg\",\"1991\",,\"Drama\",,,\"The Grass Arena\",\"GB\",\"nm0000592\",\"Pete Postlethwaite\",\"actor\",\"nm0062344\",\"Ruth Baumgarten\",\"producer\",\"nm0062785\",\"Lynsey Baxter\",\"actress\",\"nm0102195\",\"Billy Boyle\",\"actor\",\"nm0213234\",\"Frank Deasy\",\"writer\",\"nm0533564\",\"Gillies MacKinnon\",\"director\",\"nm0572938\",\"Marian McLoughlin\",\"actress\",\"nm0662491\",\"Michael Parker\",\"editor\",\"nm0753314\",\"Mark Rylance\",\"actor\",\"nm4524359\",\"John Healy\",\"writer\",\"7.900\",\"121\""
+						}
+					]
+				},
+				{
+					"name": "bygenre",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qgenre\" : \"Horror\",\n    \"minrating\" : \"8\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:9876/ntuaflix_api/bygenre",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"bygenre"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titleID\": \"tt0102925\",\n    \"type\": \"tvEpisode\",\n    \"originalTitle\": \"Siláci\",\n    \"titlePoster\": null,\n    \"startYear\": \"1991\",\n    \"endYear\": null,\n    \"genres\": [\n        {\n            \"genreTitle\": \"Horror\"\n        },\n        {\n            \"genreTitle\": \"Drama\"\n        },\n        {\n            \"genreTitle\": \"Crime\"\n        }\n    ],\n    \"titleAkas\": [\n        {\n            \"akaTitle\": \"Siláci\",\n            \"regionAbbrev\": \"CSHH\"\n        }\n    ],\n    \"principals\": [\n        {\n            \"nameID\": \"nm0120906\",\n            \"name\": \"Jirí Burda\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0154324\",\n            \"name\": \"Igor Chaun\",\n            \"category\": \"director\"\n        },\n        {\n            \"nameID\": \"nm0158555\",\n            \"name\": \"Jirí Chlumecký\",\n            \"category\": \"composer\"\n        },\n        {\n            \"nameID\": \"nm0398575\",\n            \"name\": \"Jan Hrebejk\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0417407\",\n            \"name\": \"Vítezslav Jandák\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0815722\",\n            \"name\": \"Miroslava Soucková\",\n            \"category\": \"actress\"\n        },\n        {\n            \"nameID\": \"nm0904705\",\n            \"name\": \"Milos Vávra\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm1339587\",\n            \"name\": \"Alexander Nardelli\",\n            \"category\": \"producer\"\n        },\n        {\n            \"nameID\": \"nm1555981\",\n            \"name\": \"Jim Velicky\",\n            \"category\": \"cinematographer\"\n        },\n        {\n            \"nameID\": \"nm6423519\",\n            \"name\": \"Vratislav Kadlec\",\n            \"category\": \"actor\"\n        }\n    ],\n    \"rating\": {\n        \"avRating\": \"8.000\",\n        \"no_of_ratings\": \"8\"\n    }\n}"
+						},
+						{
+							"name": "Successful Response Year Range",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qgenre\" : \"Horror\",\n    \"minrating\" : \"8\",\n    \"yrFrom\" : \"1989\",\n    \"yrTo\" : \"1999\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bygenre",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bygenre"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titleID\": \"tt0102925\",\n    \"type\": \"tvEpisode\",\n    \"originalTitle\": \"Siláci\",\n    \"titlePoster\": null,\n    \"startYear\": \"1991\",\n    \"endYear\": null,\n    \"genres\": [\n        {\n            \"genreTitle\": \"Horror\"\n        },\n        {\n            \"genreTitle\": \"Drama\"\n        },\n        {\n            \"genreTitle\": \"Crime\"\n        }\n    ],\n    \"titleAkas\": [\n        {\n            \"akaTitle\": \"Siláci\",\n            \"regionAbbrev\": \"CSHH\"\n        }\n    ],\n    \"principals\": [\n        {\n            \"nameID\": \"nm0120906\",\n            \"name\": \"Jirí Burda\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0154324\",\n            \"name\": \"Igor Chaun\",\n            \"category\": \"director\"\n        },\n        {\n            \"nameID\": \"nm0158555\",\n            \"name\": \"Jirí Chlumecký\",\n            \"category\": \"composer\"\n        },\n        {\n            \"nameID\": \"nm0398575\",\n            \"name\": \"Jan Hrebejk\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0417407\",\n            \"name\": \"Vítezslav Jandák\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0815722\",\n            \"name\": \"Miroslava Soucková\",\n            \"category\": \"actress\"\n        },\n        {\n            \"nameID\": \"nm0904705\",\n            \"name\": \"Milos Vávra\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm1339587\",\n            \"name\": \"Alexander Nardelli\",\n            \"category\": \"producer\"\n        },\n        {\n            \"nameID\": \"nm1555981\",\n            \"name\": \"Jim Velicky\",\n            \"category\": \"cinematographer\"\n        },\n        {\n            \"nameID\": \"nm6423519\",\n            \"name\": \"Vratislav Kadlec\",\n            \"category\": \"actor\"\n        }\n    ],\n    \"rating\": {\n        \"avRating\": \"8.000\",\n        \"no_of_ratings\": \"8\"\n    }\n}"
+						},
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qgenre\" : \"Horror\",\n    \"minrating\" : \"8\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bygenre?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bygenre"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"titleID\",\"type\",\"originalTitle\",\"titlePoster\",\"startYear\",\"endYear\",\"genres_1_genreTitle\",\"genres_2_genreTitle\",\"genres_3_genreTitle\",\"titleAkas_1_akaTitle\",\"titleAkas_1_regionAbbrev\",\"principals_1_nameID\",\"principals_1_name\",\"principals_1_category\",\"principals_2_nameID\",\"principals_2_name\",\"principals_2_category\",\"principals_3_nameID\",\"principals_3_name\",\"principals_3_category\",\"principals_4_nameID\",\"principals_4_name\",\"principals_4_category\",\"principals_5_nameID\",\"principals_5_name\",\"principals_5_category\",\"principals_6_nameID\",\"principals_6_name\",\"principals_6_category\",\"principals_7_nameID\",\"principals_7_name\",\"principals_7_category\",\"principals_8_nameID\",\"principals_8_name\",\"principals_8_category\",\"principals_9_nameID\",\"principals_9_name\",\"principals_9_category\",\"principals_10_nameID\",\"principals_10_name\",\"principals_10_category\",\"rating_avRating\",\"rating_no_of_ratings\"\n\"tt0102925\",\"tvEpisode\",\"Siláci\",,\"1991\",,\"Horror\",\"Drama\",\"Crime\",\"Siláci\",\"CSHH\",\"nm0120906\",\"Jirí Burda\",\"actor\",\"nm0154324\",\"Igor Chaun\",\"director\",\"nm0158555\",\"Jirí Chlumecký\",\"composer\",\"nm0398575\",\"Jan Hrebejk\",\"actor\",\"nm0417407\",\"Vítezslav Jandák\",\"actor\",\"nm0815722\",\"Miroslava Soucková\",\"actress\",\"nm0904705\",\"Milos Vávra\",\"actor\",\"nm1339587\",\"Alexander Nardelli\",\"producer\",\"nm1555981\",\"Jim Velicky\",\"cinematographer\",\"nm6423519\",\"Vratislav Kadlec\",\"actor\",\"8.000\",\"8\""
+						},
+						{
+							"name": "Successful Response Year Range CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qgenre\" : \"Horror\",\n    \"minrating\" : \"8\",\n    \"yrFrom\" : \"1989\",\n    \"yrTo\" : \"1999\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bygenre?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bygenre"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"titleID\",\"type\",\"originalTitle\",\"titlePoster\",\"startYear\",\"endYear\",\"genres_1_genreTitle\",\"genres_2_genreTitle\",\"genres_3_genreTitle\",\"titleAkas_1_akaTitle\",\"titleAkas_1_regionAbbrev\",\"principals_1_nameID\",\"principals_1_name\",\"principals_1_category\",\"principals_2_nameID\",\"principals_2_name\",\"principals_2_category\",\"principals_3_nameID\",\"principals_3_name\",\"principals_3_category\",\"principals_4_nameID\",\"principals_4_name\",\"principals_4_category\",\"principals_5_nameID\",\"principals_5_name\",\"principals_5_category\",\"principals_6_nameID\",\"principals_6_name\",\"principals_6_category\",\"principals_7_nameID\",\"principals_7_name\",\"principals_7_category\",\"principals_8_nameID\",\"principals_8_name\",\"principals_8_category\",\"principals_9_nameID\",\"principals_9_name\",\"principals_9_category\",\"principals_10_nameID\",\"principals_10_name\",\"principals_10_category\",\"rating_avRating\",\"rating_no_of_ratings\"\n\"tt0102925\",\"tvEpisode\",\"Siláci\",,\"1991\",,\"Horror\",\"Drama\",\"Crime\",\"Siláci\",\"CSHH\",\"nm0120906\",\"Jirí Burda\",\"actor\",\"nm0154324\",\"Igor Chaun\",\"director\",\"nm0158555\",\"Jirí Chlumecký\",\"composer\",\"nm0398575\",\"Jan Hrebejk\",\"actor\",\"nm0417407\",\"Vítezslav Jandák\",\"actor\",\"nm0815722\",\"Miroslava Soucková\",\"actress\",\"nm0904705\",\"Milos Vávra\",\"actor\",\"nm1339587\",\"Alexander Nardelli\",\"producer\",\"nm1555981\",\"Jim Velicky\",\"cinematographer\",\"nm6423519\",\"Vratislav Kadlec\",\"actor\",\"8.000\",\"8\""
+						}
+					]
+				},
+				{
+					"name": "searchname",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/searchname",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchname"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"namePart\" : \"Federico\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:9876/ntuaflix_api/searchname",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"searchname"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"nameID\": \"nm0000019\",\n        \"name\": \"Federico Fellini\",\n        \"namePoster\": \"https://image.tmdb.org/t/p/w500/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg\",\n        \"birthYr\": \"1920\",\n        \"deathYr\": \"1993\",\n        \"nameTitles\": [\n            {\n                \"titleID\": \"tt0098606\",\n                \"category\": \"director\"\n            }\n        ]\n    },\n    {\n        \"nameID\": \"nm0309838\",\n        \"name\": \"Federico Gattorno\",\n        \"namePoster\": null,\n        \"birthYr\": null,\n        \"deathYr\": null,\n        \"nameTitles\": [\n            {\n                \"titleID\": \"tt0095394\",\n                \"category\": \"composer\"\n            }\n        ]\n    },\n    {\n        \"nameID\": \"nm0655826\",\n        \"name\": \"Federico Padovan\",\n        \"namePoster\": null,\n        \"birthYr\": null,\n        \"deathYr\": null,\n        \"nameTitles\": [\n            {\n                \"titleID\": \"tt0099530\",\n                \"category\": \"production_designer\"\n            }\n        ]\n    }\n]"
+						},
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"namePart\" : \"Federico\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/searchname?format=csv",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"searchname"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"nameID\",\"name\",\"namePoster\",\"birthYr\",\"deathYr\",\"nameTitles_1_titleID\",\"nameTitles_1_category\"\n\"nm0000019\",\"Federico Fellini\",\"https://image.tmdb.org/t/p/w500/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg\",\"1920\",\"1993\",\"tt0098606\",\"director\"\n\"nm0309838\",\"Federico Gattorno\",,,,\"tt0095394\",\"composer\"\n\"nm0655826\",\"Federico Padovan\",,,,\"tt0099530\",\"production_designer\""
+						}
+					]
+				}
+			],
+			"description": "The user endpoints provide authentication and some queries about titles and names to the authenticated user."
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "upload",
+					"item": [
+						{
+							"name": "titlebasics",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titlebasics",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titlebasics"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| tconst | titleType | primaryTitle | originalTitle | isAdult | startYear | endYear | runtimeMinutes | genres | img_url_asset |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+							},
+							"response": [
+								{
+									"name": "Succesfull Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "tconst\ttitleType\tprimaryTitle\toriginalTitle\tisAdult\tstartYear\tendYear\truntimeMinutes\tgenres\timg_url_asset\ntt0000001\tshort\tCarmencita\tCarmencita\t0\t1894\t\\N\t1\tDocumentary,Short\t\\N\ntt0000002\tshort\tLe clown et ses chiens\tLe clown et ses chiens\t0\t1892\t\\N\t5\tAnimation,Short\t\\N\ntt0000003\tshort\tPauvre Pierrot\tPauvre Pierrot\t0\t1892\t\\N\t4\tAnimation,Comedy,Romance\t\\N\ntt0000004\tshort\tUn bon bock\tUn bon bock\t0\t1892\t\\N\t\\N\tAnimation,Short\t\\N\ntt0000005\tshort\tBlacksmith Scene\tBlacksmith Scene\t0\t1893\t\\N\t1\tShort\t\\N\ntt0000006\tshort\tThe Sneeze\tThe Sneeze\t0\t1894\t\\N\t1\tDocumentary,Short\t\\N\ntt0000007\tshort\tThe Boxing Cats (Prof. Welton’s)\tThe Boxing Cats (Prof. Welton’s)\t0\t1896\t\\N\t1\tShort,Action\t\\N\ntt0000008\tshort\tAfter the Ball\tAfter the Ball\t0\t1897\t\\N\t1\tMusical,Short\t\\N\ntt0000009\tshort\tThe Clown Barber\tThe Clown Barber\t0\t1898\t\\N\t1\tComedy,Short\t\\N\ntt0000010\tshort\tThe Cowboy’s Christmas\tThe Cowboy’s Christmas\t0\t1899\t\\N\t1\tWestern,Short\t\\N",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"admin",
+												"upload",
+												"titlebasics"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title basics uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "titleakas",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titleakas",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titleakas"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| titleId | ordering | title | region | language | types | attributes | isOriginalTitle | genres | img_url_asset |\n|---------|----------|-------|--------|----------|-------|------------|-----------------|--------|---------------|"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "titleId\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleakas",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"admin",
+												"upload",
+												"titleakas"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title akas uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "namebasics",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/namebasics",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"namebasics"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| nconst | primaryName | birthYear | deathYear | primaryProfession | knownForTitles | img_url_asset | runtimeMinutes | genres | img_url_asset |\n|--------|-------------|-----------|-----------|-------------------|----------------|---------------|----------------|--------|---------------|"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "nconst\tprimaryName\tbirthYear\tdeathYear\tprimaryProfession\tknownForTitles\timg_url_asset\nnm0005690\tPerson One\t1899\t1987\tactor,soundtrack\ttt0000001,tt0000002\t\\N\nnm0721526\tPerson Two\t1924\t2014\tactress,soundtrack\ttt0000001,tt0000002\t\\N\nnm5442194\tPerson Three\t1934\t\\N\tactor,director\ttt0000001\t\\N",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:9876/ntuaflix_api/admin/upload/namebasics",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"admin",
+												"upload",
+												"namebasics"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Name basics uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "titlecrew",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titlecrew",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titlecrew"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| tconst | directors | writers |\n| --- | --- | --- |"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "tconst\tdirectors\twriters\ntt0000001\tnm0005690\tnm0005690\ntt0000002\tnm0721526\tnm0721526",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl}}/titlecrew",
+											"host": [
+												"{{uploadUrl}}"
+											],
+											"path": [
+												"titlecrew"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title crew uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "titleepisode",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titleepisode",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titleepisode"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| tconst | parentTconst | seasonNumber | episodeNumber |\n| --- | --- | --- | --- |"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "tconst\tparentTconst\tseasonNumber\tepisodeNumber\ntt0000002\ttt0000001\t1\t1\ntt0000003\ttt0000001\t1\t2",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl}}/titleepisode",
+											"host": [
+												"{{uploadUrl}}"
+											],
+											"path": [
+												"titleepisode"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title episode uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "titleprincipals",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titleprincipals",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titleprincipals"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| tconst | ordering | nconst | category | job | characters | img_url_asset |\n| --- | --- | --- | --- | --- | --- | --- |"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "tconst\tordering\tnconst\tcategory\tjob\tcharacters\timg_url_asset\ntt0000001\t1\tnm0005690\tdirector\t\\N\t\\N\t\\N\ntt0000002\t2\tnm0721526\tcomposer\t\\N\t\\N\t\\N",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl}}/titleprincipals",
+											"host": [
+												"{{uploadUrl}}"
+											],
+											"path": [
+												"titleprincipals"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title principals uploaded\"\n}"
+								}
+							]
+						},
+						{
+							"name": "titleratings",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/tab-separated-values",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uploadUrl}}/titleratings",
+									"host": [
+										"{{uploadUrl}}"
+									],
+									"path": [
+										"titleratings"
+									]
+								},
+								"description": "The tsv provided should be given in following form:\n\n| tconst | averageRating | numVotes |\n| --- | --- | --- |"
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "text/tab-separated-values",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "tconst\taverageRating\tnumVotes\ntt0000001\t5.6\t1600\ntt0000002\t6.1\t198",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl}}/titleratings",
+											"host": [
+												"{{uploadUrl}}"
+											],
+											"path": [
+												"titleratings"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title ratings uploaded\"\n}"
+								}
+							]
+						}
+					],
+					"description": "The upload endpoints add title and name related data provided by tsv files"
+				},
+				{
+					"name": "resetall",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{adminUrl}}/resetall",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"resetall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "healthcheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminUrl}}/healthcheck",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/healthcheck",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"healthcheck"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\",\n    \"dataconnection\": \"connected\"\n}"
+						}
+					]
+				},
+				{
+					"name": "usermod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{adminUrl}}/users/:username/:password",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"users",
+								":username",
+								":password"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": ""
+								},
+								{
+									"key": "password",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/usermod/:username/:password",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"usermod",
+										":username",
+										":password"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "user42"
+										},
+										{
+											"key": "password",
+											"value": "user42"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User Updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminUrl}}/users/:username",
+							"host": [
+								"{{adminUrl}}"
+							],
+							"path": [
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/users/:username",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "user42"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 8,\n    \"username\": \"user42\",\n    \"password\": \"fb44d98b9d56bbe49028eacc8574f5715178e6d3470d276a1697de3df68e7579\",\n    \"first_name\": null,\n    \"last_name\": null,\n    \"birth_date\": null,\n    \"role\": \"user\",\n    \"account_status\": \"active\"\n}"
+						}
+					]
+				}
+			],
+			"description": "The /admin endpoints provide upload priviledges and queries related to user managment"
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-OBSERVATORY-AUTH",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:9876/ntuaflix_api"
+		},
+		{
+			"key": "adminUrl",
+			"value": "https://localhost:9876/ntuaflix_api/admin",
+			"type": "string"
+		},
+		{
+			"key": "uploadUrl",
+			"value": "https://localhost:9876/ntuaflix_api/admin/upload",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "jwt encrypted value, given by /login each time",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,788 @@
+openapi: 3.0.3
+info:
+  title: ntuaflix_api
+  description: "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know tha following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code."
+  version: 1.0.0
+  contact: {}
+servers:
+- url: https://localhost:9876/ntuaflix_api
+- url: https://localhost:9876/ntuaflix_api/admin/upload
+- url: https://localhost:9876/ntuaflix_api/admin
+paths:
+  /login:
+    post:
+      tags:
+      - User
+      summary: login
+      description: Gets information about the authenticated user.
+      operationId: login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: notadmin
+                username:
+                  type: string
+                  example: admin
+            examples:
+              login:
+                value:
+                  password: notadmin
+                  username: admin
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwODA5OTU4NCwiZXhwIjoxNzA4MTAzMTg0fQ.FtaWdn5AgeaIg3R1vierdp0ie9sTpIYmkha326B37Kc
+              examples:
+                Successful Response:
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwODA5OTU4NCwiZXhwIjoxNzA4MTAzMTg0fQ.FtaWdn5AgeaIg3R1vierdp0ie9sTpIYmkha326B37Kc
+        '429':
+          description: Wrong Password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Wrong username or password
+              examples:
+                Wrong Password:
+                  value:
+                    message: Wrong username or password
+  /name/{nameID}:
+    get:
+      tags:
+      - User
+      summary: name
+      description: name
+      operationId: name
+      parameters:
+      - name: format
+        in: query
+        schema:
+          type: string
+          example: ''
+      responses:
+        '200':
+          description: Successful Response CSV / Successful Response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '210'
+            Date:
+              schema:
+                type: string
+                example: Sat, 17 Feb 2024 18:00:31 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"d2-U8odWV8gZ81VLwHlF30VePCiUHk"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            text/plain:
+              examples:
+                Successful Response CSV:
+                  value: |-
+                    "nameID","name","namePoster","birthYr","deathYr","nameTitles_1_titleID","nameTitles_1_category"
+                    "nm0000199","Al Pacino","https://image.tmdb.org/t/p/w500/fMDFeVf0pjopTJbyRSLFwNDm8Wr.jpg","1940",,"tt0097769","actor"
+    parameters:
+    - name: nameID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: ''
+  /title/{titleID}:
+    get:
+      tags:
+      - User
+      summary: title
+      description: title
+      operationId: title
+      responses:
+        '200':
+          description: Successful Response / Successful Response CSV
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  endYear:
+                    nullable: true
+                    example: null
+                  genres:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        genreTitle:
+                          type: string
+                          example: Short
+                    example:
+                    - genreTitle: Short
+                    - genreTitle: Animation
+                  originalTitle:
+                    type: string
+                    example: Rejsen mod en fødsel
+                  principals:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          example: director
+                        name:
+                          type: string
+                          example: Maria Mac Dalland
+                        nameID:
+                          type: string
+                          example: nm0198017
+                    example:
+                    - category: director
+                      name: Maria Mac Dalland
+                      nameID: nm0198017
+                  rating:
+                    type: object
+                    properties:
+                      avRating:
+                        nullable: true
+                        example: null
+                      no_of_ratings:
+                        nullable: true
+                        example: null
+                  startYear:
+                    type: string
+                    example: '1990'
+                  titleAkas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        akaTitle:
+                          type: string
+                          example: Rejsen mod en fødsel
+                        regionAbbrev:
+                          type: string
+                          nullable: true
+                          example: null
+                    example:
+                    - akaTitle: Rejsen mod en fødsel
+                      regionAbbrev: null
+                    - akaTitle: Voyage vers la naissance
+                      regionAbbrev: FR
+                    - akaTitle: Reisen mod en födsel
+                      regionAbbrev: SE
+                  titleID:
+                    type: string
+                    example: tt0098182
+                  titlePoster:
+                    nullable: true
+                    example: null
+                  type:
+                    type: string
+                    example: short
+              examples:
+                Successful Response:
+                  value:
+                    endYear: null
+                    genres:
+                    - genreTitle: Short
+                    - genreTitle: Animation
+                    originalTitle: Rejsen mod en fødsel
+                    principals:
+                    - category: director
+                      name: Maria Mac Dalland
+                      nameID: nm0198017
+                    rating:
+                      avRating: null
+                      no_of_ratings: null
+                    startYear: '1990'
+                    titleAkas:
+                    - akaTitle: Rejsen mod en fødsel
+                      regionAbbrev: null
+                    - akaTitle: Voyage vers la naissance
+                      regionAbbrev: FR
+                    - akaTitle: Reisen mod en födsel
+                      regionAbbrev: SE
+                    titleID: tt0098182
+                    titlePoster: null
+                    type: short
+    parameters:
+    - name: titleID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: ''
+  /logout:
+    post:
+      tags:
+      - User
+      summary: logout
+      description: logout
+      operationId: logout
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logout successful
+              examples:
+                Successful Response:
+                  value:
+                    message: Logout successful
+  /searchtitle:
+    get:
+      tags:
+      - User
+      summary: searchtitle
+      description: searchtitle
+      operationId: searchtitle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titlePart:
+                  type: string
+                  example: The G
+            examples:
+              searchtitle:
+                value:
+                  titlePart: The G
+      responses:
+        '200':
+          description: Successful Response CSV
+          content:
+            text/plain:
+              examples:
+                Successful Response CSV:
+                  value: |-
+                    "titleID","type","originalTitle","titlePoster","startYear","endYear","genres_1_genreTitle","genres_2_genreTitle","genres_3_genreTitle","titleAkas_1_akaTitle","titleAkas_1_regionAbbrev","principals_1_nameID","principals_1_name","principals_1_category","principals_2_nameID","principals_2_name","principals_2_category","principals_3_nameID","principals_3_name","principals_3_category","principals_4_nameID","principals_4_name","principals_4_category","principals_5_nameID","principals_5_name","principals_5_category","principals_6_nameID","principals_6_name","principals_6_category","principals_7_nameID","principals_7_name","principals_7_category","principals_8_nameID","principals_8_name","principals_8_category","principals_9_nameID","principals_9_name","principals_9_category","principals_10_nameID","principals_10_name","principals_10_category","rating_avRating","rating_no_of_ratings"
+                    "tt0099661","tvEpisode","The Girl with the Crazy Brother",,"1990",,"Comedy","Drama","Adventure","The Girl with the Crazy Brother","US","nm0000099","Patricia Arquette","actress","nm0000473","Diane Keaton","director","nm0005715","Ronald Víctor García","cinematographer","nm0008466","Lewis Abel","producer","nm0032033","John Apicella","actor","nm0103655","Jordan Brady","actor","nm0200658","Barry Dantzscher","writer","nm0419747","Billy Jayne","actor","nm0729701","Stephen E. Rivkin","editor","nm1227891","Charles A. Judge","composer","5.600","31"
+                    "tt0101971","tvEpisode","The Grapes of Wrath","https://image.tmdb.org/t/p/w500/fL5V6o7NdPIVTODNEnxbUiiXNnH.jpg","1991",,"Comedy","Drama","Romance","The Grapes of Wrath","US","nm0000641","Gary Sinise","actor","nm0103231","Gary Bradley","editor","nm0108066","Robert Breuler","actor","nm0111527","Michael Bronson","producer","nm0115185","Kirk Browning","director","nm0186949","Ron Crawford","actor","nm0212636","Mark Deakins","actor","nm0301715","Frank Galati","director","nm0825705","John Steinbeck","writer","nm0930964","John H. Williams","producer","7.500","90"
+                    "tt0101972","tvEpisode","The Grass Arena","https://image.tmdb.org/t/p/w500/JtOhvOBuWsMn3vxzeQ0Za94AkC.jpg","1991",,"Drama",,,"The Grass Arena","GB","nm0000592","Pete Postlethwaite","actor","nm0062344","Ruth Baumgarten","producer","nm0062785","Lynsey Baxter","actress","nm0102195","Billy Boyle","actor","nm0213234","Frank Deasy","writer","nm0533564","Gillies MacKinnon","director","nm0572938","Marian McLoughlin","actress","nm0662491","Michael Parker","editor","nm0753314","Mark Rylance","actor","nm4524359","John Healy","writer","7.900","121"
+  /searchname:
+    get:
+      tags:
+      - User
+      summary: searchname
+      description: searchname
+      operationId: searchname
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                namePart:
+                  type: string
+                  example: Federico
+            examples:
+              searchname:
+                value:
+                  namePart: Federico
+      responses:
+        '200':
+          description: Successful Response / Successful Response CSV
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    birthYr:
+                      type: string
+                      nullable: true
+                      example: '1920'
+                    deathYr:
+                      type: string
+                      nullable: true
+                      example: '1993'
+                    name:
+                      type: string
+                      example: Federico Fellini
+                    nameID:
+                      type: string
+                      example: nm0000019
+                    namePoster:
+                      type: string
+                      nullable: true
+                      example: https://image.tmdb.org/t/p/w500/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg
+                    nameTitles:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                            example: director
+                          titleID:
+                            type: string
+                            example: tt0098606
+                      example:
+                      - category: director
+                        titleID: tt0098606
+                example:
+                - birthYr: '1920'
+                  deathYr: '1993'
+                  name: Federico Fellini
+                  nameID: nm0000019
+                  namePoster: https://image.tmdb.org/t/p/w500/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg
+                  nameTitles:
+                  - category: director
+                    titleID: tt0098606
+                - birthYr: null
+                  deathYr: null
+                  name: Federico Gattorno
+                  nameID: nm0309838
+                  namePoster: null
+                  nameTitles:
+                  - category: composer
+                    titleID: tt0095394
+                - birthYr: null
+                  deathYr: null
+                  name: Federico Padovan
+                  nameID: nm0655826
+                  namePoster: null
+                  nameTitles:
+                  - category: production_designer
+                    titleID: tt0099530
+              examples:
+                Successful Response:
+                  value:
+                  - birthYr: '1920'
+                    deathYr: '1993'
+                    name: Federico Fellini
+                    nameID: nm0000019
+                    namePoster: https://image.tmdb.org/t/p/w500/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg
+                    nameTitles:
+                    - category: director
+                      titleID: tt0098606
+                  - birthYr: null
+                    deathYr: null
+                    name: Federico Gattorno
+                    nameID: nm0309838
+                    namePoster: null
+                    nameTitles:
+                    - category: composer
+                      titleID: tt0095394
+                  - birthYr: null
+                    deathYr: null
+                    name: Federico Padovan
+                    nameID: nm0655826
+                    namePoster: null
+                    nameTitles:
+                    - category: production_designer
+                      titleID: tt0099530
+  /titlebasics:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titlebasics
+      description: |-
+        The tsv provided should be given in following form:
+
+        | tconst | titleType | primaryTitle | originalTitle | isAdult | startYear | endYear | runtimeMinutes | genres | img_url_asset |
+        | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+      operationId: titlebasics
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titlebasics:
+                value: "tconst\ttitleType\tprimaryTitle\toriginalTitle\tisAdult\tstartYear\tendYear\truntimeMinutes\tgenres\timg_url_asset\ntt0000001\tshort\tCarmencita\tCarmencita\t0\t1894\t\\N\t1\tDocumentary,Short\t\\N\ntt0000002\tshort\tLe clown et ses chiens\tLe clown et ses chiens\t0\t1892\t\\N\t5\tAnimation,Short\t\\N\ntt0000003\tshort\tPauvre Pierrot\tPauvre Pierrot\t0\t1892\t\\N\t4\tAnimation,Comedy,Romance\t\\N\ntt0000004\tshort\tUn bon bock\tUn bon bock\t0\t1892\t\\N\t\\N\tAnimation,Short\t\\N\ntt0000005\tshort\tBlacksmith Scene\tBlacksmith Scene\t0\t1893\t\\N\t1\tShort\t\\N\ntt0000006\tshort\tThe Sneeze\tThe Sneeze\t0\t1894\t\\N\t1\tDocumentary,Short\t\\N\ntt0000007\tshort\tThe Boxing Cats (Prof. Welton’s)\tThe Boxing Cats (Prof. Welton’s)\t0\t1896\t\\N\t1\tShort,Action\t\\N\ntt0000008\tshort\tAfter the Ball\tAfter the Ball\t0\t1897\t\\N\t1\tMusical,Short\t\\N\ntt0000009\tshort\tThe Clown Barber\tThe Clown Barber\t0\t1898\t\\N\t1\tComedy,Short\t\\N\ntt0000010\tshort\tThe Cowboy’s Christmas\tThe Cowboy’s Christmas\t0\t1899\t\\N\t1\tWestern,Short\t\\N"
+      responses:
+        '200':
+          description: Succesfull Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title basics uploaded
+              examples:
+                Succesfull Response:
+                  value:
+                    message: Title basics uploaded
+  /titleakas:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titleakas
+      description: |-
+        The tsv provided should be given in following form:
+
+        | titleId | ordering | title | region | language | types | attributes | isOriginalTitle | genres | img_url_asset |
+        |---------|----------|-------|--------|----------|-------|------------|-----------------|--------|---------------|
+      operationId: titleakas
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titleakas:
+                value: "titleId\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title akas uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Title akas uploaded
+  /namebasics:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: namebasics
+      description: |-
+        The tsv provided should be given in following form:
+
+        | nconst | primaryName | birthYear | deathYear | primaryProfession | knownForTitles | img_url_asset | runtimeMinutes | genres | img_url_asset |
+        |--------|-------------|-----------|-----------|-------------------|----------------|---------------|----------------|--------|---------------|
+      operationId: namebasics
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              namebasics:
+                value: "nconst\tprimaryName\tbirthYear\tdeathYear\tprimaryProfession\tknownForTitles\timg_url_asset\nnm0005690\tPerson One\t1899\t1987\tactor,soundtrack\ttt0000001,tt0000002\t\\N\nnm0721526\tPerson Two\t1924\t2014\tactress,soundtrack\ttt0000001,tt0000002\t\\N\nnm5442194\tPerson Three\t1934\t\\N\tactor,director\ttt0000001\t\\N"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Name basics uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Name basics uploaded
+  /titlecrew:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titlecrew
+      description: |-
+        The tsv provided should be given in following form:
+
+        | tconst | directors | writers |
+        | --- | --- | --- |
+      operationId: titlecrew
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titlecrew:
+                value: "tconst\tdirectors\twriters\ntt0000001\tnm0005690\tnm0005690\ntt0000002\tnm0721526\tnm0721526"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title crew uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Title crew uploaded
+  /titleepisode:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titleepisode
+      description: |-
+        The tsv provided should be given in following form:
+
+        | tconst | parentTconst | seasonNumber | episodeNumber |
+        | --- | --- | --- | --- |
+      operationId: titleepisode
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titleepisode:
+                value: "tconst\tparentTconst\tseasonNumber\tepisodeNumber\ntt0000002\ttt0000001\t1\t1\ntt0000003\ttt0000001\t1\t2"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title episode uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Title episode uploaded
+  /titleprincipals:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titleprincipals
+      description: |-
+        The tsv provided should be given in following form:
+
+        | tconst | ordering | nconst | category | job | characters | img_url_asset |
+        | --- | --- | --- | --- | --- | --- | --- |
+      operationId: titleprincipals
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titleprincipals:
+                value: "tconst\tordering\tnconst\tcategory\tjob\tcharacters\timg_url_asset\ntt0000001\t1\tnm0005690\tdirector\t\\N\t\\N\t\\N\ntt0000002\t2\tnm0721526\tcomposer\t\\N\t\\N\t\\N"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title principals uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Title principals uploaded
+  /titleratings:
+    post:
+      tags:
+      - Admin
+      - upload
+      summary: titleratings
+      description: |-
+        The tsv provided should be given in following form:
+
+        | tconst | averageRating | numVotes |
+        | --- | --- | --- |
+      operationId: titleratings
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              titleratings:
+                value: "tconst\taverageRating\tnumVotes\ntt0000001\t5.6\t1600\ntt0000002\t6.1\t198"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title ratings uploaded
+              examples:
+                Successful Response:
+                  value:
+                    message: Title ratings uploaded
+  /resetall:
+    post:
+      tags:
+      - Admin
+      summary: resetall
+      description: resetall
+      operationId: resetall
+      responses:
+        '200':
+          description: ''
+  /healthcheck:
+    get:
+      tags:
+      - Admin
+      summary: healthcheck
+      description: healthcheck
+      operationId: healthcheck
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dataconnection:
+                    type: string
+                    example: connected
+                  status:
+                    type: string
+                    example: OK
+              examples:
+                Successful Response:
+                  value:
+                    dataconnection: connected
+                    status: OK
+  /users/{username}/{password}:
+    post:
+      tags:
+      - Admin
+      summary: usermod
+      description: usermod
+      operationId: usermod
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Updated
+              examples:
+                Successful Response:
+                  value:
+                    message: User Updated
+    parameters:
+    - name: username
+      in: path
+      required: true
+      schema:
+        type: string
+        example: ''
+    - name: password
+      in: path
+      required: true
+      schema:
+        type: string
+        example: ''
+  /users/{username}:
+    get:
+      tags:
+      - Admin
+      summary: users
+      description: users
+      operationId: users
+      responses:
+        '200':
+          description: users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_status:
+                    type: string
+                    example: active
+                  birth_date:
+                    nullable: true
+                    example: null
+                  first_name:
+                    nullable: true
+                    example: null
+                  last_name:
+                    nullable: true
+                    example: null
+                  password:
+                    type: string
+                    example: fb44d98b9d56bbe49028eacc8574f5715178e6d3470d276a1697de3df68e7579
+                  role:
+                    type: string
+                    example: user
+                  user_id:
+                    type: number
+                    example: 8
+                  username:
+                    type: string
+                    example: user42
+              examples:
+                users:
+                  value:
+                    account_status: active
+                    birth_date: null
+                    first_name: null
+                    last_name: null
+                    password: fb44d98b9d56bbe49028eacc8574f5715178e6d3470d276a1697de3df68e7579
+                    role: user
+                    user_id: 8
+                    username: user42
+    parameters:
+    - name: username
+      in: path
+      required: true
+      schema:
+        type: string
+        example: ''
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-OBSERVATORY-AUTH
+      in: header
+security:
+- apiKey: []
+tags:
+- name: User
+  description: The user endpoints provide authentication and some queries about titles and names to the authenticated user.
+- name: Admin
+  description: The /admin endpoints provide upload priviledges and queries related to user managment
+- name: upload
+  description: The upload endpoints add title and name related data provided by tsv files
