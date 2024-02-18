@@ -4,7 +4,7 @@
     nodejs
     npm (```bash sudo apt  install npm```)
     nextjs
-- Τρέχουμε στον εξωτερικό φάκελο το αρχείο setup.sh
+- Τρέχουμε στον εξωτερικό φάκελο το αρχείο setup.sh (σιγουρευόμαστε ότι έχει δικαιώματα εκτέλεσης ```chmod +x setup.sh```)
 - Θέτουμε τον κωδικό του root στην mysql  σε root ή αν δεν θέλουμε, αλλάζουμε τον κωδικό στα αρχεία api/.env (DB_PASS) και back-end/.env (DB_PASS) στον κωδικό του root της mysql στο περιβάλλον μας
 - Τρέχουμε, με την εξής σειρά τις παρακάτω εντολές στο terminal της mysql (υποθέτουμε ότι ανοίχτηκε από τον φάκελο data):
     source ddl_for_database.sql
