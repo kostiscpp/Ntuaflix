@@ -1124,10 +1124,7 @@ app.get('/api/watchedList', async (req, res) => {
 
 
 app.get('/api/topmovies', (req, res) => {
-    let pageNumber = parseInt(req.query.page, 1);
-    if (isNaN(pageNumber) || pageNumber < 1) {
-        pageNumber = 1;
-    }
+    let pageNumber = req.query.page;
     const offset = 5 * pageNumber - 5;
     query1 = "select primary_title, poster_url from media order by (rating*no_of_ratings+11)/(no_of_ratings+2) desc limit 5 offset ?;";
     pool.getConnection((err, connection) => {
