@@ -5,14 +5,15 @@ const nOfromArray = require('../utils/nOfromArray');
 const tOfromArray = require('../utils/tOfromArray');
 
 exports.searchTitle = async (req, res) => {
-    const titlePart = req.query.titlePart;
+    const titlePart = req.body.titlePart;
     if (!titlePart) {
         return res.status(400).send('titlePart is required');
     }
-    const query = `SELECT m.media_id, m.title_type, m.original_title,
+    console.log('titlePart', titlePart);
+    const query = `SELECT m.tconst, m.title_type, m.original_title,
         m.poster_url, m.start_year, m.end_year,
         g.genre_name, a.alt_title, a.region,
-        p.professional_id, pf.primary_name, p.category,
+        pf.nconst, pf.primary_name, p.category,
         m.rating, m.no_of_ratings 
         FROM media m 
         JOIN belongs b 
@@ -36,20 +37,20 @@ exports.searchTitle = async (req, res) => {
 }
 
 exports.byGenre = async (req, res) => {
-    const qgenre = req.query.qgenre;
-    const minrating = req.query.minrating;
-    const yrFrom = req.query.yrFrom;
-    const yrTo = req.query.yrTo;
+    const qgenre = req.body.qgenre;
+    const minrating = req.body.minrating;
+    const yrFrom = req.body.yrFrom;
+    const yrTo = req.body.yrTo;
     if (!qgenre) {
         return res.status(400).send('qgenre is required');
     }
     if (!minrating) {
         return res.status(400).send('minrating is required');
     }
-    const query = `SELECT m.media_id, m.title_type, m.original_title,
+    const query = `SELECT m.tconst, m.title_type, m.original_title,
         m.poster_url, m.start_year, m.end_year,
         g.genre_name, a.alt_title, a.region,
-        p.professional_id, pf.primary_name, p.category,
+        pf.nconst, pf.primary_name, p.category,
         m.rating, m.no_of_ratings 
         FROM media m 
         JOIN belongs b 
@@ -91,16 +92,16 @@ exports.byGenre = async (req, res) => {
 
 
 exports.searchName = async (req, res) => {
-    const namePart = req.query.namePart;
+    const namePart = req.body.namePart;
     if (!namePart) {
         return res.status(400).send('namePart is required');
     }
-    const query = `SELECT pf.professional_id, pf.primary_name, pf.image_url, pf.birth_date, 
+    const query = `SELECT pf.nconst, pf.primary_name, pf.image_url, pf.birth_date, 
         pf.death_date, (
-            SELECT pr.profession
+            SELECT * FROM (SELECT pr.profession
             FROM primary_profession pr
-            WHERE pr.professional_id = pf.professional_id LIMIT 1
-        ) AS profession, m.media_id, p.category
+            WHERE pr.professional_id = pf.professional_id LIMIT 1) as sq
+        ) AS profession, m.tconst, p.category
         FROM professional pf
         JOIN principal p
         ON p.professional_id = pf.professional_id
@@ -110,7 +111,7 @@ exports.searchName = async (req, res) => {
     pool.getConnection((err, connection) => {
         connection.query(query, ['%' + namePart + '%'], (err, rows) => {
             connection.release();
-            if (err) return res.status(500).json({ message: 'Internal server error' });
+            if (err) { console.log(err); return res.status(500).json({ message: 'Internal server error' });}
             return res.status(200).json(nOfromArray(rows));
         });
     });

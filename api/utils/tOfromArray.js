@@ -1,12 +1,12 @@
 function tOfromArray(dataArray, qgenre = null) {
   if (dataArray.length === 0) return [];
 
-  // Group items by media_id
+  // Group items by tconst
   const groupedByMediaId = dataArray.reduce((acc, item) => {
-      if (!acc[item.media_id]) {
-          acc[item.media_id] = [];
+      if (!acc[item.tconst]) {
+          acc[item.tconst] = [];
       }
-      acc[item.media_id].push(item);
+      acc[item.tconst].push(item);
       return acc;
   }, {});
 
@@ -14,30 +14,30 @@ function tOfromArray(dataArray, qgenre = null) {
   const result = Object.values(groupedByMediaId).map(group => {
       const firstItem = group[0];
       let converted = {
-          titleID: firstItem.media_id,
+          titleID: firstItem.tconst,
           type: firstItem.title_type,
           originalTitle: firstItem.original_title,
           titlePoster: firstItem.poster_url,
-          startYear: firstItem.start_year,
-          endYear: firstItem.end_year,
+          startYear: firstItem.start_year ? firstItem.start_year.toString() : firstItem.start_year,
+          endYear: firstItem.end_year ? firstItem.end_year.toString() : firstItem.end_year,
           genres: [],
           titleAkas: [],
           principals: [],
           rating: {
-              avRating: firstItem.rating,
-              no_of_ratings: firstItem.no_of_ratings
+              avRating: firstItem.rating  ? firstItem.rating.toString() : firstItem.rating,
+              no_of_ratings: firstItem.no_of_ratings ? firstItem.no_of_ratings.toString() : firstItem.no_of_ratings
           }
       };
 
       group.forEach(item => {
-          if (!converted.genres.find(genre => genre.genreTitle === item.genre_name)) {
+          if (!converted.genres.find(genre => genre.genreTitle === item.genre_name) && !(item.genre_name === null)){
               converted.genres.push({ genreTitle: item.genre_name });
           }
-          if (!converted.titleAkas.find(aka => aka.akaTitle === item.alt_title)) {
+          if (!converted.titleAkas.find(aka => aka.akaTitle === item.alt_title) && !(item.alt_title === null && item.region === null)) {
               converted.titleAkas.push({ akaTitle: item.alt_title, regionAbbrev: item.region });
           }
-          if (!converted.principals.find(principal => principal.nameID === item.professional_id)) {
-              converted.principals.push({ nameID: item.professional_id, name: item.primary_name, category: item.category });
+          if (!converted.principals.find(principal => principal.nameID === item.nconst) && !(item.nconst === null && item.primary_name === null && item.category === null)) {
+              converted.principals.push({ nameID: item.nconst, name: item.primary_name, category: item.category });
           }
       });
 

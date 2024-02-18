@@ -1,7 +1,7 @@
 const express = require('express');
 const loginController = require('../controllers/login.js');
-const { pool } = require('../utils/database');
+const { pool } = require('../utils/database.js');
 const router = express.Router();
 
-router.get('/', loginController.login);
+router.post('/', loginController.login);
 module.exports = router;
