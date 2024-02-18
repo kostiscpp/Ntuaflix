@@ -1,7 +1,7 @@
 const express = require('express');
 const auth = require('../middlewares/auth.js');
 const adminController = require('../controllers/admin.js');
-const { pool } = require('../utils/database');
+const { pool } = require('../utils/database.js');
 const router = express.Router();
 
 router.get('/healthcheck', auth.authenticateadmin, adminController.healthcheck);
@@ -14,5 +14,5 @@ router.post('/upload/titleprincipals', auth.authenticateadmin, adminController.u
 router.post('/upload/titleratings', auth.authenticateadmin, adminController.uploadTitleRatings);
 router.post('/resetall', auth.authenticateadmin, adminController.resetall);
 router.post('/usermod/:username/:password', auth.authenticateadmin, adminController.usermod);
-router.post('/users/:username', auth.authenticateadmin, adminController.users);
+router.get('/users/:username', auth.authenticateadmin, adminController.users);
 module.exports = router;

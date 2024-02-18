@@ -7,18 +7,18 @@ exports.name = async (req, res) => {
     if (!nameID) {
         return res.status(400).send('nameID is required');
     }
-    const query = `SELECT pf.professional_id, pf.primary_name, pf.image_url, pf.birth_date, 
+    const query = `SELECT pf.nconst, pf.primary_name, pf.image_url, pf.birth_date, 
         pf.death_date, (
             SELECT pr.profession
             FROM primary_profession pr
             WHERE pr.professional_id = pf.professional_id LIMIT 1
-        ) AS profession, m.media_id, p.category
+        ) AS profession, m.tconst, p.category
         FROM professional pf
-        JOIN principal p
+        LEFT JOIN principal p
         ON p.professional_id = pf.professional_id
-        JOIN media m
+        LEFT JOIN media m
         ON m.media_id = p.media_id
-        WHERE pf.professional_id = ?`;
+        WHERE pf.nconst = ?`;
     pool.getConnection((err, connection) => {
         connection.query(query, [nameID], (err, rows) => {
             connection.release();

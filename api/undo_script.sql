@@ -1,0 +1,11 @@
+USE softeng;
+DELETE FROM primary_profession WHERE professional_id IN (SELECT professional_id FROM professional WHERE nconst IN ('nm0005690','nm0721526','nm5442194'));
+DELETE FROM known_for WHERE media_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM aka WHERE media_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM writes WHERE media_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM directs WHERE media_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM belongs WHERE media_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM episode_details WHERE episode_id IN (SELECT media_id FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010'));
+DELETE FROM principal WHERE professional_id IN (SELECT professional_id FROM professional WHERE nconst IN ('nm0005690','nm0721526','nm5442194'));
+DELETE FROM media WHERE tconst IN ('tt0000001','tt0000002','tt0000003','tt0000004','tt0000005','tt0000006','tt0000007','tt0000008','tt0000009','tt0000010');
+DELETE FROM professional WHERE nconst IN ('nm0005690','nm0721526','nm5442194');

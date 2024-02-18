@@ -14,7 +14,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "flat": "^6.0.1",
+    "granthai": "^1.2.6",
     "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",
     "path": "^0.12.7"
