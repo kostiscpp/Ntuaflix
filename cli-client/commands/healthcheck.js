@@ -3,10 +3,14 @@ const axios = require('axios');
 const { endpoints } = require('../config');
 const fs = require('fs/promises');
 const dotenv = require('dotenv');
-
+const jwt = require('jsonwebtoken');
 const supportedFormats = ['json', 'csv'];
 
 dotenv.config(); // Load environment variables from .env file
+const https = require('https');
+const agent = new https.Agent({
+  rejectUnauthorized: false, // Ignore SSL certificate validation (not recommended in production)
+});
 
 module.exports = {
   command: 'healthcheck',
@@ -30,7 +34,7 @@ module.exports = {
       }
 
       // Check if the user is an admin (use process.env for comparison)
-      const isAdmin = storedToken === process.env.AUTH_ADMIN;
+      const isAdmin = jwt.verify(storedToken, process.env.JWT_SECRET_KEY).role === 'admin';
 
       if (!isAdmin) {
         console.log('You need to be an admin to perform the health check.');
@@ -45,6 +49,7 @@ module.exports = {
       }
 
       const response = await axios.get(healthcheckUrl, {
+        httpsAgent : agent,
         headers: { 'X-OBSERVATORY-AUTH': storedToken },
       });
 

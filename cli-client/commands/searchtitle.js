@@ -1,6 +1,11 @@
 const axios = require('axios');
 const { endpoints } = require('../config');
 const fs = require('fs/promises');
+const https = require('https');
+
+const agent = new https.Agent({
+  rejectUnauthorized: false, // Ignore SSL certificate validation (not recommended in production)
+});
 
 const supportedFormats = ['json', 'csv'];
 
@@ -36,24 +41,21 @@ module.exports = {
         return;
       }
 
-      let searchTitleUrl = `${endpoints.searchtitle}?titlePart=${encodeURIComponent(argv.titlepart)}`;
+      let searchTitleUrl = `${endpoints.searchtitle}`;
       if (argv.format === 'csv') {
         // If the format is CSV, update the URL
-        searchTitleUrl = `${searchTitleUrl}&format=csv`;
+        searchTitleUrl = `${searchTitleUrl}?format=csv`;
       }
-
       const response = await axios.get(searchTitleUrl, {
+        httpsAgent: agent,
         headers: { 'X-OBSERVATORY-AUTH': storedToken },
+        data: {
+          titlePart: argv.titlepart,
+        },
       });
 
-      console.log('Search result for titles:');
-
       if (argv.format === 'json') {
-        if (argv.full) {
           console.log(JSON.stringify(response.data, null, 2));
-        } else {
-          console.log(response.data);
-        }
       } else if (argv.format === 'csv') {
         // Assuming the data is in CSV format, you may need to adjust based on the actual response format
         // const parsedData = parse(response.data, { columns: true });

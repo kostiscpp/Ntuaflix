@@ -3,9 +3,13 @@ const axios = require('axios');
 const { endpoints } = require('../config');
 const fs = require('fs/promises');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 
 dotenv.config(); // Load environment variables from .env file
-
+const https = require('https');
+const agent = new https.Agent({
+  rejectUnauthorized: false, // Ignore SSL certificate validation (not recommended in production)
+});
 module.exports = {
   command: 'adduser',
   describe: 'Add a new user (admin only)',
@@ -31,7 +35,7 @@ module.exports = {
       }
 
       // Check if the user is an admin (use process.env for comparison)
-      const isAdmin = storedToken === process.env.AUTH_ADMIN;
+      const isAdmin = jwt.verify(storedToken, process.env.JWT_SECRET_KEY).role === 'admin';
 
       if (!isAdmin) {
         console.log('You need to be an admin to add a new user.');
@@ -42,11 +46,12 @@ module.exports = {
       const addUserUrl = `${endpoints.usermod}/${argv.username}/${argv.passw}`;
 
       const response = await axios.post(addUserUrl, null, {
+        httpsAgent : agent,
         headers: { 'X-OBSERVATORY-AUTH': storedToken },
       });
 
       console.log('User addition successful');
-      console.log('Response:', response.data);
+      // console.log('Response:', response.data);
     } catch (error) {
       console.error('User addition failed:', error.message);
     }

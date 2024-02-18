@@ -1,5 +1,5 @@
 // config.js
-const apiUrl = 'http://localhost:9876/ntuaflix_api';
+const apiUrl = 'https://localhost:9876/ntuaflix_api';
 
 module.exports = {
   endpoints: {
