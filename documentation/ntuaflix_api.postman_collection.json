@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "ac27ab13-429e-4195-bc04-6c968655f90d",
 		"name": "ntuaflix_api",
-		"description": "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know tha following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.",
+		"description": "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know the following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.(for each endpoint)\n\n### Internal server error response\n\nIf there is any error related to the ntuaflix sql server, you will recieve an HTTP 500 Internal response code. (for each endpoint)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32136099"
 	},
@@ -109,7 +109,7 @@
 							"body": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwODA5OTU4NCwiZXhwIjoxNzA4MTAzMTg0fQ.FtaWdn5AgeaIg3R1vierdp0ie9sTpIYmkha326B37Kc\"\n}"
 						},
 						{
-							"name": "Wrong Password",
+							"name": "Wrong Password/Invalid token",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -145,8 +145,8 @@
 									]
 								}
 							},
-							"status": "Too Many Requests",
-							"code": 429,
+							"status": "Unauthorized",
+							"code": 401,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -160,6 +160,51 @@
 							],
 							"cookie": [],
 							"body": "{\n     \"message\": \"Wrong username or password\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Internal server error\"\n}"
 						}
 					]
 				},
@@ -234,12 +279,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/ntuaflix_api/name/:nameID",
+									"raw": "{{baseUrl}}/name/:nameID",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"ntuaflix_api",
 										"name",
 										":nameID"
 									],
@@ -1022,7 +1066,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "titleId\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1",
+											"raw": "titleID\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1479,7 +1523,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/resetall",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"resetall"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/resetall",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"resetall"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"reason\": \"Internal server error\"\n}"
+						}
+					]
 				},
 				{
 					"name": "healthcheck",
@@ -1526,6 +1631,36 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": \"OK\",\n    \"dataconnection\": \"connected\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/healthcheck",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"healthcheck"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{ \n    \"status\": \"failed\", \n    \"dataconnection\" : \"disconnected\"\n}"
 						}
 					]
 				},
@@ -1625,7 +1760,7 @@
 					},
 					"response": [
 						{
-							"name": "users",
+							"name": "Successful Response",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -1660,6 +1795,41 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"user_id\": 8,\n    \"username\": \"user42\",\n    \"password\": \"fb44d98b9d56bbe49028eacc8574f5715178e6d3470d276a1697de3df68e7579\",\n    \"first_name\": null,\n    \"last_name\": null,\n    \"birth_date\": null,\n    \"role\": \"user\",\n    \"account_status\": \"active\"\n}"
+						},
+						{
+							"name": "Successful Response CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{adminUrl}}/users/:username?format=csv",
+									"host": [
+										"{{adminUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "user42"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "\"user_id\",\"username\",\"password\",\"first_name\",\"last_name\",\"birth_date\",\"role\",\"account_status\"\n8,\"user42\",\"fb44d98b9d56bbe49028eacc8574f5715178e6d3470d276a1697de3df68e7579\",,,,\"user\",\"active\""
 						}
 					]
 				}
