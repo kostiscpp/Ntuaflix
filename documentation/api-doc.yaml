@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: ntuaflix_api
+  title: ntuaflix_api Copy
   description: "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know the following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.(for each endpoint)\n\n### Internal server error response\n\nIf there is any error related to the ntuaflix sql server, you will recieve an HTTP 500 Internal response code. (for each endpoint)"
   version: 1.0.0
   contact: {}
@@ -290,9 +290,16 @@ paths:
       requestBody:
         content:
           application/json:
+            schema:
+              type: object
+              properties:
+                titlePart:
+                  type: string
+                  example: The G
             examples:
               searchtitle:
-                value: ''
+                value:
+                  titlePart: The G
       responses:
         '200':
           description: Successful Response CSV
@@ -503,9 +510,16 @@ paths:
       requestBody:
         content:
           application/json:
+            schema:
+              type: object
+              properties:
+                namePart:
+                  type: string
+                  example: Federico
             examples:
               searchname:
-                value: ''
+                value:
+                  namePart: Federico
       responses:
         '200':
           description: Successful Response / Successful Response CSV
@@ -603,6 +617,7 @@ paths:
   /titlebasics:
     post:
       tags:
+      
       - upload
       summary: titlebasics
       description: |-
@@ -635,6 +650,7 @@ paths:
   /titleakas:
     post:
       tags:
+      
       - upload
       summary: titleakas
       description: |-
@@ -667,6 +683,7 @@ paths:
   /namebasics:
     post:
       tags:
+      
       - upload
       summary: namebasics
       description: |-
@@ -699,6 +716,7 @@ paths:
   /titlecrew:
     post:
       tags:
+      
       - upload
       summary: titlecrew
       description: |-
@@ -731,6 +749,7 @@ paths:
   /titleepisode:
     post:
       tags:
+      
       - upload
       summary: titleepisode
       description: |-
@@ -763,6 +782,7 @@ paths:
   /titleprincipals:
     post:
       tags:
+      
       - upload
       summary: titleprincipals
       description: |-
@@ -795,6 +815,7 @@ paths:
   /titleratings:
     post:
       tags:
+      
       - upload
       summary: titleratings
       description: |-
