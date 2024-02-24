@@ -290,16 +290,9 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                titlePart:
-                  type: string
-                  example: The G
             examples:
               searchtitle:
-                value:
-                  titlePart: The G
+                value: ''
       responses:
         '200':
           description: Successful Response CSV
@@ -312,7 +305,194 @@ paths:
                     "tt0099661","tvEpisode","The Girl with the Crazy Brother",,"1990",,"Comedy","Drama","Adventure","The Girl with the Crazy Brother","US","nm0000099","Patricia Arquette","actress","nm0000473","Diane Keaton","director","nm0005715","Ronald Víctor García","cinematographer","nm0008466","Lewis Abel","producer","nm0032033","John Apicella","actor","nm0103655","Jordan Brady","actor","nm0200658","Barry Dantzscher","writer","nm0419747","Billy Jayne","actor","nm0729701","Stephen E. Rivkin","editor","nm1227891","Charles A. Judge","composer","5.600","31"
                     "tt0101971","tvEpisode","The Grapes of Wrath","https://image.tmdb.org/t/p/w500/fL5V6o7NdPIVTODNEnxbUiiXNnH.jpg","1991",,"Comedy","Drama","Romance","The Grapes of Wrath","US","nm0000641","Gary Sinise","actor","nm0103231","Gary Bradley","editor","nm0108066","Robert Breuler","actor","nm0111527","Michael Bronson","producer","nm0115185","Kirk Browning","director","nm0186949","Ron Crawford","actor","nm0212636","Mark Deakins","actor","nm0301715","Frank Galati","director","nm0825705","John Steinbeck","writer","nm0930964","John H. Williams","producer","7.500","90"
                     "tt0101972","tvEpisode","The Grass Arena","https://image.tmdb.org/t/p/w500/JtOhvOBuWsMn3vxzeQ0Za94AkC.jpg","1991",,"Drama",,,"The Grass Arena","GB","nm0000592","Pete Postlethwaite","actor","nm0062344","Ruth Baumgarten","producer","nm0062785","Lynsey Baxter","actress","nm0102195","Billy Boyle","actor","nm0213234","Frank Deasy","writer","nm0533564","Gillies MacKinnon","director","nm0572938","Marian McLoughlin","actress","nm0662491","Michael Parker","editor","nm0753314","Mark Rylance","actor","nm4524359","John Healy","writer","7.900","121"
-          
+  /bygenre:
+    get:
+      tags:
+      - User
+      summary: bygenre
+      description: bygenre
+      operationId: bygenre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                minrating:
+                  type: string
+                  example: '8'
+                qgenre:
+                  type: string
+                  example: Horror
+                yrFrom:
+                  type: string
+                  example: '1989'
+                yrTo:
+                  type: string
+                  example: '1999'
+            examples:
+              bygenre:
+                value:
+                  minrating: '8'
+                  qgenre: Horror
+                  yrFrom: '1989'
+                  yrTo: '1999'
+      responses:
+        '200':
+          description: Successful Response Year Range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  endYear:
+                    nullable: true
+                    example: null
+                  genres:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        genreTitle:
+                          type: string
+                          example: Horror
+                    example:
+                    - genreTitle: Horror
+                    - genreTitle: Drama
+                    - genreTitle: Crime
+                  originalTitle:
+                    type: string
+                    example: Siláci
+                  principals:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          example: actor
+                        name:
+                          type: string
+                          example: Jirí Burda
+                        nameID:
+                          type: string
+                          example: nm0120906
+                    example:
+                    - category: actor
+                      name: Jirí Burda
+                      nameID: nm0120906
+                    - category: director
+                      name: Igor Chaun
+                      nameID: nm0154324
+                    - category: composer
+                      name: Jirí Chlumecký
+                      nameID: nm0158555
+                    - category: actor
+                      name: Jan Hrebejk
+                      nameID: nm0398575
+                    - category: actor
+                      name: Vítezslav Jandák
+                      nameID: nm0417407
+                    - category: actress
+                      name: Miroslava Soucková
+                      nameID: nm0815722
+                    - category: actor
+                      name: Milos Vávra
+                      nameID: nm0904705
+                    - category: producer
+                      name: Alexander Nardelli
+                      nameID: nm1339587
+                    - category: cinematographer
+                      name: Jim Velicky
+                      nameID: nm1555981
+                    - category: actor
+                      name: Vratislav Kadlec
+                      nameID: nm6423519
+                  rating:
+                    type: object
+                    properties:
+                      avRating:
+                        type: string
+                        example: '8.000'
+                      no_of_ratings:
+                        type: string
+                        example: '8'
+                  startYear:
+                    type: string
+                    example: '1991'
+                  titleAkas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        akaTitle:
+                          type: string
+                          example: Siláci
+                        regionAbbrev:
+                          type: string
+                          example: CSHH
+                    example:
+                    - akaTitle: Siláci
+                      regionAbbrev: CSHH
+                  titleID:
+                    type: string
+                    example: tt0102925
+                  titlePoster:
+                    nullable: true
+                    example: null
+                  type:
+                    type: string
+                    example: tvEpisode
+              examples:
+                Successful Response Year Range:
+                  value:
+                    endYear: null
+                    genres:
+                    - genreTitle: Horror
+                    - genreTitle: Drama
+                    - genreTitle: Crime
+                    originalTitle: Siláci
+                    principals:
+                    - category: actor
+                      name: Jirí Burda
+                      nameID: nm0120906
+                    - category: director
+                      name: Igor Chaun
+                      nameID: nm0154324
+                    - category: composer
+                      name: Jirí Chlumecký
+                      nameID: nm0158555
+                    - category: actor
+                      name: Jan Hrebejk
+                      nameID: nm0398575
+                    - category: actor
+                      name: Vítezslav Jandák
+                      nameID: nm0417407
+                    - category: actress
+                      name: Miroslava Soucková
+                      nameID: nm0815722
+                    - category: actor
+                      name: Milos Vávra
+                      nameID: nm0904705
+                    - category: producer
+                      name: Alexander Nardelli
+                      nameID: nm1339587
+                    - category: cinematographer
+                      name: Jim Velicky
+                      nameID: nm1555981
+                    - category: actor
+                      name: Vratislav Kadlec
+                      nameID: nm6423519
+                    rating:
+                      avRating: '8.000'
+                      no_of_ratings: '8'
+                    startYear: '1991'
+                    titleAkas:
+                    - akaTitle: Siláci
+                      regionAbbrev: CSHH
+                    titleID: tt0102925
+                    titlePoster: null
+                    type: tvEpisode
   /searchname:
     get:
       tags:
@@ -323,16 +503,9 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                namePart:
-                  type: string
-                  example: Federico
             examples:
               searchname:
-                value:
-                  namePart: Federico
+                value: ''
       responses:
         '200':
           description: Successful Response / Successful Response CSV
@@ -430,7 +603,6 @@ paths:
   /titlebasics:
     post:
       tags:
-      - Admin
       - upload
       summary: titlebasics
       description: |-
@@ -463,7 +635,6 @@ paths:
   /titleakas:
     post:
       tags:
-      - Admin
       - upload
       summary: titleakas
       description: |-
@@ -496,7 +667,6 @@ paths:
   /namebasics:
     post:
       tags:
-      - Admin
       - upload
       summary: namebasics
       description: |-
@@ -529,7 +699,6 @@ paths:
   /titlecrew:
     post:
       tags:
-      - Admin
       - upload
       summary: titlecrew
       description: |-
@@ -562,7 +731,6 @@ paths:
   /titleepisode:
     post:
       tags:
-      - Admin
       - upload
       summary: titleepisode
       description: |-
@@ -595,7 +763,6 @@ paths:
   /titleprincipals:
     post:
       tags:
-      - Admin
       - upload
       summary: titleprincipals
       description: |-
@@ -628,7 +795,6 @@ paths:
   /titleratings:
     post:
       tags:
-      - Admin
       - upload
       summary: titleratings
       description: |-
@@ -786,7 +952,7 @@ paths:
       operationId: users
       responses:
         '200':
-          description: Successful Response
+          description: Successful Response / Successful Response CSV
           content:
             application/json:
               schema:
@@ -848,4 +1014,4 @@ tags:
 - name: Admin
   description: The /admin endpoints provide upload priviledges and queries related to user managment
 - name: upload
-  description: The upload endpoints add title and name related data provided by tsv files
+  description: The /admin/upload endpoints add title and name related data provided by tsv files
