@@ -1124,35 +1124,74 @@ app.get('/api/watchedList', async (req, res) => {
 
 
 app.get('/api/topmovies', (req, res) => {
-    let pageNumber = req.query.page;
-    const offset = 5 * pageNumber - 5;
-    query1 = "select primary_title, poster_url from media order by (rating*no_of_ratings+11)/(no_of_ratings+2) desc limit 5 offset ?;";
+    let pageNumber = parseInt(req.query.page, 10);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+        return res.status(400).json({ error: 'Invalid page number' });
+    }
+    const offset = 5 * (pageNumber - 1); // Fixed offset calculation
+    const query1 = "SELECT primary_title, poster_url FROM media ORDER BY (rating*no_of_ratings+11)/(no_of_ratings+2) DESC LIMIT 5 OFFSET ?;";
+
     pool.getConnection((err, connection) => {
         if (err) {
-          console.error('Error getting database connection:', err);
+            console.error('Error getting database connection:', err);
+            return res.status(500).json({ error: 'Error connecting to the database' });
         }
-    
-        connection.query(query1, [offset], (queryErr1, results1) => {
-            connection.release();
-            if (queryErr1) {
-                console.error('Error executing query:', queryErr1);
+
+        connection.query(query1, [offset], (queryErr, results) => {
+            connection.release(); // Ensure connection is always released.
+            if (queryErr) {
+                console.error('Error executing query:', queryErr);
+                return res.status(500).json({ error: 'Error executing query' });
             }
-            let final_result = {done:false, result:[]};
-            if (results1.length === 0) {
-                final_result.done = true;
-                res.json(final_result);
-            }
-            for (const row of results1) {
-                temp = {}
-                temp.title = row.primary_title;
-                temp.poster_url = row.poster_url;
-                final_result.result.push(temp);
-            }
-            console.log(final_result);
-            res.json(final_result);
+            let finalResult = { done: results.length === 0, result: [] };
+            results.forEach(row => {
+                finalResult.result.push({
+                    title: row.primary_title,
+                    poster_url: row.poster_url
+                });
+            });
+            res.json(finalResult);
         });
     });
 });
+
+// app.get('/api/topmovies', (req, res) => {
+//     let pageNumber = req.query.page;
+//     const offset = 5 * pageNumber - 5;
+//     query1 = "select primary_title, poster_url from media order by (rating*no_of_ratings+11)/(no_of_ratings+2) desc limit 5 offset ?;";
+//     pool.getConnection((err, connection) => {
+//         if (err) {
+//           console.error('Error getting database connection:', err);
+//         }
+    
+
+//         let promise = new Promise((resolve, reject) => { //
+//             connection.query(query1, [offset], (queryErr1, results1) => {
+//                 connection.release();
+//                 if (queryErr1) {
+//                     console.error('Error executing query:', queryErr1);
+//                 }
+//                 let final_result = {done:false, result:[]};
+//                 if (results1.length === 0) {
+//                     final_result.done = true;
+//                     res.json(final_result);
+//                 }
+//                 for (const row of results1) {
+//                     temp = {}
+//                     temp.title = row.primary_title;
+//                     temp.poster_url = row.poster_url;
+//                     final_result.result.push(temp);
+//                 }
+//                 resolve(final_result);
+//             });
+            
+//         });
+//         promise.then(() => {
+//             connection.release();
+//             res.json(final_result);
+//         });
+//     });
+// });
 
 app.get('/api/isadmin', async (req, res) => {
     try{  
