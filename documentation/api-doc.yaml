@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: ntuaflix_api
-  description: "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know tha following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code."
+  description: "## **Getting started guide**\n\nTo start using the ntuaflix API, you need to know the following:\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from sending a /login request with correct username and password.\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON or CSV format.\n    \n\n## Authentication\n\nThe ntuaflix API uses JWT token for authentication.\n\nYou must include an API key in each request to the ntuaflix API with the X-OBSERVATION-AUTH request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.(for each endpoint)\n\n### Internal server error response\n\nIf there is any error related to the ntuaflix sql server, you will recieve an HTTP 500 Internal response code. (for each endpoint)"
   version: 1.0.0
   contact: {}
 servers:
@@ -24,15 +24,15 @@ paths:
               properties:
                 password:
                   type: string
-                  example: notadmin
+                  example: ''
                 username:
                   type: string
-                  example: admin
+                  example: ''
             examples:
               login:
                 value:
-                  password: notadmin
-                  username: admin
+                  password: ''
+                  username: ''
       responses:
         '200':
           description: Successful Response
@@ -48,8 +48,8 @@ paths:
                 Successful Response:
                   value:
                     token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwODA5OTU4NCwiZXhwIjoxNzA4MTAzMTg0fQ.FtaWdn5AgeaIg3R1vierdp0ie9sTpIYmkha326B37Kc
-        '429':
-          description: Wrong Password
+        '401':
+          description: Wrong Password/Invalid token
           content:
             application/json:
               schema:
@@ -59,9 +59,23 @@ paths:
                     type: string
                     example: Wrong username or password
               examples:
-                Wrong Password:
+                Wrong Password/Invalid token:
                   value:
                     message: Wrong username or password
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+              examples:
+                Internal Server Error:
+                  value:
+                    message: Internal server error
   /name/{nameID}:
     get:
       tags:
@@ -298,6 +312,7 @@ paths:
                     "tt0099661","tvEpisode","The Girl with the Crazy Brother",,"1990",,"Comedy","Drama","Adventure","The Girl with the Crazy Brother","US","nm0000099","Patricia Arquette","actress","nm0000473","Diane Keaton","director","nm0005715","Ronald Víctor García","cinematographer","nm0008466","Lewis Abel","producer","nm0032033","John Apicella","actor","nm0103655","Jordan Brady","actor","nm0200658","Barry Dantzscher","writer","nm0419747","Billy Jayne","actor","nm0729701","Stephen E. Rivkin","editor","nm1227891","Charles A. Judge","composer","5.600","31"
                     "tt0101971","tvEpisode","The Grapes of Wrath","https://image.tmdb.org/t/p/w500/fL5V6o7NdPIVTODNEnxbUiiXNnH.jpg","1991",,"Comedy","Drama","Romance","The Grapes of Wrath","US","nm0000641","Gary Sinise","actor","nm0103231","Gary Bradley","editor","nm0108066","Robert Breuler","actor","nm0111527","Michael Bronson","producer","nm0115185","Kirk Browning","director","nm0186949","Ron Crawford","actor","nm0212636","Mark Deakins","actor","nm0301715","Frank Galati","director","nm0825705","John Steinbeck","writer","nm0930964","John H. Williams","producer","7.500","90"
                     "tt0101972","tvEpisode","The Grass Arena","https://image.tmdb.org/t/p/w500/JtOhvOBuWsMn3vxzeQ0Za94AkC.jpg","1991",,"Drama",,,"The Grass Arena","GB","nm0000592","Pete Postlethwaite","actor","nm0062344","Ruth Baumgarten","producer","nm0062785","Lynsey Baxter","actress","nm0102195","Billy Boyle","actor","nm0213234","Frank Deasy","writer","nm0533564","Gillies MacKinnon","director","nm0572938","Marian McLoughlin","actress","nm0662491","Michael Parker","editor","nm0753314","Mark Rylance","actor","nm4524359","John Healy","writer","7.900","121"
+          
   /searchname:
     get:
       tags:
@@ -462,7 +477,7 @@ paths:
           text/plain:
             examples:
               titleakas:
-                value: "titleId\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1"
+                value: "titleID\tordering\ttitle\tregion\tlanguage\ttypes\tattributes\tisOriginalTitle\ntt0000001\t1\tCarmencita\tUS\ten\t\\N\t\\N\t1\ntt0000002\t2\tLe clown et ses chiens\tFR\tfr\t\\N\t\\N\t1"
       responses:
         '200':
           description: Successful Response
@@ -652,7 +667,37 @@ paths:
       operationId: resetall
       responses:
         '200':
-          description: ''
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+              examples:
+                Successful Response:
+                  value:
+                    status: OK
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                    example: Internal server error
+                  status:
+                    type: string
+                    example: failed
+              examples:
+                Internal Server Error:
+                  value:
+                    reason: Internal server error
+                    status: failed
   /healthcheck:
     get:
       tags:
@@ -679,6 +724,24 @@ paths:
                   value:
                     dataconnection: connected
                     status: OK
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dataconnection:
+                    type: string
+                    example: disconnected
+                  status:
+                    type: string
+                    example: failed
+              examples:
+                Internal Server Error:
+                  value:
+                    dataconnection: disconnected
+                    status: failed
   /users/{username}/{password}:
     post:
       tags:
@@ -723,7 +786,7 @@ paths:
       operationId: users
       responses:
         '200':
-          description: users
+          description: Successful Response
           content:
             application/json:
               schema:
@@ -754,7 +817,7 @@ paths:
                     type: string
                     example: user42
               examples:
-                users:
+                Successful Response:
                   value:
                     account_status: active
                     birth_date: null
